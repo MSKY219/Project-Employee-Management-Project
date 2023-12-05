@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.innobl.mapper.TestMapper">
+
+    <sql id="testTable">
+        id
+        , name
+    </sql>
+
+<!--  전체조회  -->
+    <select id="getUserList" resultType="com.practice.innobl.dto.TestDto">
+        SELECT id, name FROM testTable
+    </select>
+
+<!--  등록확인  -->
+    <insert id="testSaveUser" parameterType="com.practice.innobl.dto.TestDto">
+        INSERT INTO testTable (<include refid="testTable" />) VALUES (
+            #{id}, #{name}
+        )
+    </insert>
+
+</mapper>

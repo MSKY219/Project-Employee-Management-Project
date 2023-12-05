@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+        </tr>
+        <tr th:each="member: ${userList}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.name}"></td>
+        </tr>
+    </table>
+
+    <form action="/testSaveUser" method="post">
+        id : <input type="text" name="id" id="id" />
+        name : <input type="text" name="name" id="name" />
+        <input type="submit" value="저장하기" />
+    </form>
+
+</body>
+
+</html>

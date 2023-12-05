@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<aside th:fragment="aside" class="lnb">
+  <h2 class="lnb-title">제목 제목</h2>
+  <div class="lnb-content">
+    <ul class="menu">
+      <li>
+        <h3 class="menu-title">직원</h3>
+        <ul class="sub-menu">
+          <li th:class="${activeMenu == 'memberList'} ? 'active' : ''">
+            <a th:href="@{/member}">직원 조회</a>
+          </li>
+          <li th:class="${activeMenu == 'addMember'} ? 'active' : ''">
+            <a th:href="@{/member/add}">직원 등록</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h3 class="menu-title">프로젝트</h3>
+        <ul class="sub-menu">
+          <li th:class="${projectMenu == 'projectList'} ? 'active' : ''">
+            <a th:href="@{/project}">프로젝트 조회</a>
+          </li>
+          <li th:class="${projectMenu == 'addProject'} ? 'active' : ''">
+            <a th:href="@{/project/add}">프로젝트 등록</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</aside>
+
+</html>

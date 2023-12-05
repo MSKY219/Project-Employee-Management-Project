@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>프로젝트 등록</title>
+
+  <link th:href="@{/css/common/reset.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/layout.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/form-table.css}" rel="stylesheet" />
+  <link th:href="@{/css/page/project-add.css}" rel="stylesheet" />
+
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div th:replace="~{/fragments/header.html :: header}"></div>
+  <div class="container">
+    <div th:replace="~{/fragments/aside.html :: aside}"></div>
+    <main class="main">
+      <h1 class="page-title">프로젝트 등록</h1>
+
+      <ul class="breadcrumb">
+        <li>
+          <a href="#"><i class="ph-fill ph-house"></i></a>
+        </li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li><a href="#">프로젝트</a></li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li class="active"><a href="#">프로젝트 등록</a></li>
+      </ul>
+
+      <div class="content">
+        <!-- 데이터 폼 -->
+        <form action="#" method="post">
+          <table class="form-table">
+            <tbody>
+              <tr>
+                <th><label for="name">프로젝트명</label></th>
+                <td><input type="text" id="name" name="name" placeholder="프로젝트명" /></td>
+                <th><label for="client">발주처</label></th>
+                <td>
+                  <select type="text" id="client" name="client" placeholder="발주처">
+                    <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM70'}" th:value="${val?.id}" th:utext="${val?.title}"></option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th><label for="dateAt1">시작일</label></th>
+                <td><input type="date" id="dateAt1" name="date" value="" max="9999-12-31" /></td>
+                <th><label for="dateAt2">종료일</label></th>
+                <td><input type="date" id="dateAt2" name="date" value="" max="9999-12-31" /></td>
+              </tr>
+              <tr>
+                <th><label for="tech">기술스택</label></th>
+                <td>
+                  <select id="tech" name="tech" placeholder="기술스택">
+                    <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM50'}" th:value="${val?.id}" th:utext="${val?.title}"></option>
+                  </select>
+                </td>
+                <th><label for="place">장소</label></th>
+                <td colspan="3"><input type="text" id="place" name="place" placeholder="장소" /></td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <div class="form-table-actions">
+                    <button type="button" class="btn secondary">취소</button>
+                    <button type="button" class="btn primary addProject">등록</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" th:src="@{/js/project/project-add.js}"></script>
+</body>
+
+</html>

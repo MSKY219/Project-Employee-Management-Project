@@ -1,0 +1,17 @@
+.profile-upload {
+  height: fit-content;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.profile-upload img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+
+.profile-upload button {
+  width: 100%;
+}

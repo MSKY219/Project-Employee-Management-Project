@@ -1,0 +1,144 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90px;
+  padding: 0 20px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.header .logo {
+  width: 150px;
+}
+
+.container {
+  display: flex;
+  padding: 30px 20px;
+}
+
+.lnb {
+  width: 260px;
+}
+
+.lnb .lnb-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  font-size: 27px;
+  font-weight: bold;
+  background-color: #3c497b;
+  color: #fff;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.lnb .lnb-content {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.lnb .menu {
+  border-radius: 10px;
+  background-color: #fff;
+  /* padding-top: 1px; */
+}
+
+.lnb .menu>li {
+  border: 1px solid #4366c0;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.lnb .menu .menu-title {
+  padding: 16px 20px;
+  font-size: 17px;
+  background-color: #4366c0;
+  color: #fff;
+  font-weight: 500;
+}
+
+.lnb .menu .sub-menu {
+  padding: 10px 15px;
+}
+
+.lnb .menu .sub-menu li a {
+  display: block;
+  padding: 12px;
+  border-bottom: 1px dashed #f2f2f2;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.lnb .menu .sub-menu li.active a {
+  position: relative;
+  color: #4366c0;
+}
+
+.lnb .menu .sub-menu li.active a:after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: #4366c0;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 15px;
+  margin: auto;
+}
+
+.lnb .menu .sub-menu li a:hover {
+  background-color: #f2f2f2;
+}
+
+.main {
+  flex: 1;
+  padding-left: 40px;
+}
+
+.main .page-title {
+  font-size: 35px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 30px;
+  padding: 14px 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+
+.breadcrumb li a {
+  color: #666;
+  text-decoration: none;
+}
+
+.breadcrumb li a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb li.active a {
+  color: #0083cb;
+  text-decoration: underline;
+}
+
+.breadcrumb li.caret {
+  margin: 0 10px;
+}

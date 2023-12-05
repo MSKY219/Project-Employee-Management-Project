@@ -1,0 +1,85 @@
+.search-filter {
+  padding: 20px;
+  background-color: #faf8f9;
+  border: 1px solid #c5d2e5;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.search-filter button.search-button {
+  background-color: #33467e;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.2;
+  color: #fff;
+  border: none;
+  height: 34px;
+  padding: 0 20px;
+}
+
+.search-filter .search-filter-row {
+  display: flex;
+  padding: 5px 0;
+  gap: 10px;
+}
+
+.search-filter .search-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.search-filter .search-filter-item label {
+  position: relative;
+  padding: 0 10px;
+  font-weight: 500;
+}
+
+.search-filter .search-filter-item select,
+.search-filter .search-filter-item input {
+  flex: 1;
+}
+
+.search-filter .search-filter-item label::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #3f56c8;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.search-filter .search-filter-item.status-filter {
+  flex: 1;
+}
+
+.search-filter .search-filter-item.tech-filter {
+  flex: 1;
+}
+
+.search-filter .search-filter-item.date-filter {
+  flex: 2.5;
+}
+
+.search-filter .search-filter-item.location-filter {
+  flex: 1;
+}
+
+.search-filter .search-filter-item.location-filter #location {
+  width: 200px;
+  flex: 0.154;
+}
+
+.search-filter .search-filter-item.grade-filter {
+  flex: 1;
+}
+
+.search-filter .search-filter-item.location-filter #location-detail {
+  flex: 1;
+}

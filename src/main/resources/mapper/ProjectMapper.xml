@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.innobl.mapper.ProjectRepository">
+    <sql id="project">
+        id
+        , pTitle
+        , startat
+        , endat
+        , place
+        , skill
+        , client
+        , status
+    </sql>
+
+    <sql id="commoncode">
+        id
+        , title
+    </sql>
+
+    <sql id="commondefinition">
+        id
+        , commoncode_id
+        , title
+    </sql>
+
+
+<!--  프로젝트 등록  -->
+    <insert id="saveProject" parameterType="com.practice.innobl.dto.project.ProjectRequestDto" useGeneratedKeys="true" keyProperty="id">
+        insert into project(<include refid="project" />)
+        values
+            (
+                default,
+                #{pTitle},
+                #{startAt},
+                #{endAt},
+                #{place},
+                #{skill},
+                #{client},
+                default
+            )
+    </insert>
+
+    <!--  프로젝트 목록 창 이동  -->
+    <select id="getProjectList" resultType="com.practice.innobl.dto.project.ProjectResponseDto">
+        select
+        p.id,
+        p.pTitle,
+        p.startat,
+        p.endat,
+        p.place,
+        cd1.title as client,
+        cd2.title as skill,
+        cd3.title as status
+        from project p
+        <!-- 발주처 -->
+        left outer join commondefinition cd1 on (cd1.commoncode_id = 'CM70' AND p.client = cd1.id)
+        <!-- 기술스택 -->
+        left outer join commondefinition cd2 on (cd2.commoncode_id = 'CM50' AND p.skill = cd2.id)
+        <!-- 상태 -->
+        left outer join commondefinition cd3 on (cd3.commoncode_id = 'CM60' AND p.status = cd3.id)
+        <where>
+            <if test="status != ''">
+                and p.status = #{status}
+            </if>
+            <if test="skill != ''">
+                and p.skill = #{skill}
+            </if>
+            <if test="grade != ''">
+                and p.client = #{grade}
+            </if>
+            <if test="dateStart != '' and dateEnd != ''">
+                and p.startat between #{dateStart} and #{dateEnd}
+            </if>
+            <if test="others == 1">
+                and p.pTitle like concat ('%', #{othersDetail}, '%')
+            </if>
+            <if test="others == 2">
+                and p.place like concat ('%', #{othersDetail}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--  프로젝트 목록 조회 시, 페이징을 위한 숫자 조회  -->
+    <select id="getListCount" resultType="_int">
+        select count(p.id)
+        from project p
+        <where>
+            <if test="status != ''">
+                and p.status = #{status}
+            </if>
+            <if test="skill != ''">
+                and p.skill = #{skill}
+            </if>
+            <if test="grade != ''">
+                and p.client = #{grade}
+            </if>
+            <if test="dateStart != '' and dateEnd != ''">
+                and p.startat between #{dateStart} and #{dateEnd}
+            </if>
+            <if test="others == 1">
+                and p.pTitle like concat ('%', #{othersDetail}, '%')
+            </if>
+            <if test="others == 2">
+                and p.place like concat ('%', #{othersDetail}, '%')
+            </if>
+        </where>
+    </select>
+
+
+    <!--  프로젝트 상태 수정  -->
+    <update id="updateSt" parameterType="com.practice.innobl.dto.project.ProjectRequestDto">
+        update project
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+    <!--  프로젝트 상세 조회  -->
+    <select id="getProjectDetail" resultType="com.practice.innobl.dto.project.ProjectResponseDto">
+        select
+        p.id,
+        p.pTitle,
+        p.startat,
+        p.endat,
+        p.place,
+        cd1.title as client,
+        cd2.title as skill,
+        cd3.title as status
+        from project p
+        <!-- 발주처 -->
+        left outer join commondefinition cd1 on (cd1.commoncode_id = 'CM70' AND p.client = cd1.id)
+        <!-- 기술스택 -->
+        left outer join commondefinition cd2 on (cd2.commoncode_id = 'CM50' AND p.skill = cd2.id)
+        <!-- 상태 -->
+        left outer join commondefinition cd3 on (cd3.commoncode_id = 'CM60' AND p.status = cd3.id)
+        where p.id = #{id}
+    </select>
+
+    <!--  프로젝트 정보 수정  -->
+    <update id="updateProject" parameterType="com.practice.innobl.dto.project.ProjectRequestDto">
+        update project
+        set
+        pTitle = #{pTitle}
+        , startat = #{startAt}
+        , endat = #{endAt}
+        , place = #{place}
+        , skill = #{skill}
+        , client = #{client}
+        , status = #{status}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,32 @@
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination ul li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #111;
+}
+
+.pagination ul li.active a {
+  background-color: #3e4e6f;
+  color: #fff;
+}
+
+.pagination ul li.page-arrow a {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #ddd;
+}

@@ -1,0 +1,10 @@
+.project-edit {
+  height: fit-content;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.project-edit button {
+  width: 100px;
+}

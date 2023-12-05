@@ -1,0 +1,43 @@
+table.data-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.data-table thead tr {
+  background-color: #faf8f9;
+  border-top: 2px solid #22499d;
+  padding: 15px 8px;
+  text-align: left;
+}
+
+table.data-table th,
+table.data-table td {
+  padding: 15px 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.data-table th {
+  font-weight: 500;
+  border-bottom-color: #ccc;
+}
+
+table.data-table select,
+table.data-table input {
+  border: 1px solid #999;
+}
+
+table.data-table a {
+  border-radius: 3px;
+  text-decoration: none;
+  color: #22499d;
+}
+
+table.data-table a:hover {
+  text-decoration: underline;
+}
+
+table.data-table tr:hover {
+  background-color: #ddd;
+}

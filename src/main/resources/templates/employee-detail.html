@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>직원 상세조회</title>
+
+  <link th:href="@{/css/common/reset.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/layout.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/pagination.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/data-table.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/form-table.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/profile-upload.css}" rel="stylesheet" />
+  <link th:href="@{/css/page/employee-detail.css}" rel="stylesheet" />
+
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div th:replace="~{/fragments/header.html :: header}"></div>
+  <div class="container">
+    <div th:replace="~{/fragments/aside.html :: aside}"></div>
+    <main class="main">
+      <h1 class="page-title">직원 상세내역</h1>
+
+      <ul class="breadcrumb">
+        <li>
+          <a href="#"><i class="ph-fill ph-house"></i></a>
+        </li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li><a href="#">직원</a></li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li class="active"><a href="#">상세내역</a></li>
+      </ul>
+
+      <div class="content">
+        <div class="detail">
+          <!-- 프로필 이미지 등록 -->
+          <div class="profile-upload" th:each="emp : ${empDetail}">
+            <img id="profile-image" th:if="${emp?.img} == null " th:src="@{https://api.dicebear.com/7.x/bottts/svg}" />
+            <img id="profile-image" th:unless="${emp?.img} == null " th:src="@{${emp.img}}" />
+            <div class="align-btns">
+              <button type="button" class="btn secondary" th:each="emp : ${empDetail}" th:onclick="|location.href='@{/member/edit/{id}(id=${emp.id})}'|">정보수정</button>
+            </div>
+          </div>
+
+          <!-- 데이터 폼 -->
+          <form action="#" method="post">
+            <table class="form-table">
+              <tbody th:each="emp : ${empDetail}">
+                <tr>
+                  <th><label for="name">이름</label></th>
+                  <td><input type="text" id="name" name="name" placeholder="이름" readonly th:value="${emp?.empName}" /></td>
+                  <th><label for="phone">연락처</label></th>
+                  <td><input type="text" id="phone" name="phone" placeholder="연락처" readonly th:value="${emp?.tel}" /></td>
+                </tr>
+                <tr>
+                  <th><label for="reg-no">주민번호</label></th>
+                  <td><input type="text" id="reg-no" name="reg-no" placeholder="주민번호" readonly th:value="${emp?.regNo}" /></td>
+                  <th><label for="gender">성별</label></th>
+                  <td><input type="text" id="gender" name="gender" placeholder="성별" readonly th:value="${emp?.gender}" /></td>
+                </tr>
+                <tr>
+                  <th><label for="email">이메일</label></th>
+                  <td colspan="3"><input type="email" id="email" name="email" placeholder="이메일" readonly th:value="${emp?.email}" /></td>
+                </tr>
+                <tr>
+                  <th><label for="address">주소</label></th>
+                  <td colspan="3"><input type="text" id="address" name="address" placeholder="주소" readonly th:value="${emp?.addrMain}" /></td>
+                </tr>
+                <tr>
+                  <th></th>
+                  <td colspan="3">
+                    <input type="text" id="address1" name="address1" placeholder="주소 1" readonly th:value="${emp?.addrDetail}" />
+                  </td>
+                </tr>
+                <tr>
+                  <th><label for="job-title">직책</label></th>
+                  <td><input type="text" id="job-title" name="job-title" placeholder="직책" readonly th:value="${emp?.jobTitle}" /></td>
+                  <th><label for="department">부서</label></th>
+                  <td><input type="text" id="department" name="department" placeholder="부서" readonly th:value="${emp?.dept}" /></td>
+                </tr>
+                <tr>
+                  <th><label for="date">입사일</label></th>
+                  <td><input type="text" id="date" name="date" placeholder="입사일" readonly th:value="${emp?.enterAt}" /></td>
+                  <th><label for="grade">기술등급</label></th>
+                  <td><input type="text" id="grade" name="grade" placeholder="기술등급" readonly th:value="${emp?.grade}" /></td>
+                </tr>
+                <tr>
+                  <th><label for="edu">힉력</label></th>
+                  <td><input type="text" id="edu" name="edu" placeholder="힉력" readonly th:value="${emp?.education}" /></td>
+                  <th><label for="tech">기술스택</label></th>
+                  <td><input type="text" id="tech" name="tech" placeholder="기술스택" readonly th:value="${emp?.skill}" /></td>
+                </tr>
+                <tr>
+                  <th><label for="edu">상태</label></th>
+                  <td><input type="text" id="empStatus" name="empStatus" placeholder="상태" readonly th:value="${emp?.empStatus}" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+
+        <!-- 데이터 테이블 -->
+        <div class="detail-list">
+          <div class="detail-list-header">
+            <h2>참여 프로젝트</h2>
+            <a href="#">프로젝트 추가</a>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+                <th>순번</th>
+                <th>프로젝트명</th>
+                <th>발주처</th>
+                <th>투입일</th>
+                <th>철수일</th>
+                <th>장소</th>
+                <th>역할</th>
+                <th>기술스택</th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" class="boxes" /></td>
+                <!-- <td><input type="checkbox" th:name="userCheck" th:value="${user.id}" class="boxes" /></td> -->
+                <td>1</td>
+                <td>프로젝트 A</td>
+                <td>A회사</td>
+                <td>2023-11-29</td>
+                <td>2023-12-29</td>
+                <td>강남</td>
+                <td>PM</td>
+                <td>JAVA</td>
+                <td>
+                  <a href="#">삭제</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- 페이징 -->
+          <div class="pagination">
+            <ul class="page-list">
+              <li class="page-arrow first">
+                <a href="#"><i class="ph-bold ph-caret-double-left"></i></a>
+              </li>
+              <li class="active"><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li class="page-arrow last">
+                <a href="#"><i class="ph-bold ph-caret-double-right"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

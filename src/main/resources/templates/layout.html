@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+
+  <link th:href="@{/css/common/reset.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/layout.css}" rel="stylesheet" />
+
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo temp-box">로고 영역</div>
+    <div class="temp-box">오른쪽 영역</div>
+  </header>
+  <div class="container">
+    <aside class="lnb">
+      <h2 class="lnb-title">제목 제목</h2>
+      <div class="lnb-content">
+        <ul class="menu">
+          <li>
+            <h3 class="menu-title">직원</h3>
+            <ul class="sub-menu">
+              <li class="active"><a href="#">직원 조회</a></li>
+              <li><a href="#">직원 등록</a></li>
+            </ul>
+          </li>
+          <li>
+            <h3 class="menu-title">프로젝트</h3>
+            <ul class="sub-menu">
+              <li><a href="#">프로젝트 조회</a></li>
+              <li><a href="#">프로젝트 등록</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <main class="main">
+      <h1 class="page-title">{title}</h1>
+
+      <ul class="breadcrumb">
+        <li>
+          <a href="#"><i class="ph-fill ph-house"></i></a>
+        </li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li><a href="#">직원</a></li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li class="active"><a href="#">직원 조회</a></li>
+      </ul>
+
+      <div class="content">
+        내용 내용
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

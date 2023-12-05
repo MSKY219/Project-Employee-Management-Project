@@ -1,0 +1,111 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  min-width: 1200px;
+}
+
+select,
+input,
+button {
+  box-sizing: border-box;
+}
+
+select,
+input {
+  height: 34px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 0 10px;
+}
+
+select {
+  appearance: none;
+  padding-right: 22px !important;
+  background-image: url('/images/chevron-down.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 7px) 50%;
+}
+
+button.btn {
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.2;
+  color: #333;
+  border: 1px solid #ddd;
+  height: 34px;
+  padding: 0 20px;
+  background-color: #fff;
+}
+
+button.btn.disabled {
+  background-color: #ddd;
+  color: #999;
+}
+
+button.btn:hover {
+  background-color: #f2f2f2;
+}
+
+button.btn:active {
+  background-color: #e6e6e6;
+}
+
+button.btn.primary {
+  background-color: #33467e;
+  color: #fff;
+  border: none;
+  height: 34px;
+  /* width: 102px; */
+  padding: 0 20px;
+}
+
+button.btn.primary:hover {
+  background-color: #2a3e6e;
+}
+
+button.btn.primary:active {
+  background-color: #1e2c4f;
+}
+
+.align-btns {
+  display: flex;
+  flex-direction: column;
+}
+
+button.btn.secondary {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+}
+
+button.btn.secondary:hover {
+  background-color: #e6e6e6;
+}
+
+button.btn.secondary:active {
+  background-color: #d9d9d9;
+}
+
+a {
+  border-radius: 3px;
+  text-decoration: none;
+  color: #22499d;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/** 영역 표시를 위한 임시 박스 */
+.temp-box {
+  border: 1px solid #000;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}

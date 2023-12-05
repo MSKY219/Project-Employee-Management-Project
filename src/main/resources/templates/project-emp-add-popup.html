@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>직원 조회</title>
+
+  <link th:href="@{/css/common/reset.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/common/layout.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/search-filter.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/data-table.css}" rel="stylesheet" />
+  <link th:href="@{/css/components/pagination.css}" rel="stylesheet" />
+
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <main class="main">
+      <h1 class="page-title">직원 조회</h1>
+
+      <ul class="breadcrumb">
+        <li>
+          <a href="#"><i class="ph-fill ph-house"></i></a>
+        </li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li><a href="#">직원</a></li>
+        <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
+        <li class="active"><a href="#">직원 조회</a></li>
+      </ul>
+
+      <div class="content">
+        <!-- 검색 필터 -->
+        <form class="search-filter">
+          <div class="search-filter-row">
+            <div class="search-filter-item status-filter">
+              <label for="status">상태</label>
+              <select name="status" id="status">
+                <option value="" selected>전체선택</option>
+                <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM40'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${searchRequest?.status} == ${val?.id}"></option>
+              </select>
+            </div>
+            <div class="search-filter-item tech-filter">
+              <label for="skill">기술 스택</label>
+              <select name="skill" id="tech">
+                <option value="" selected>전체선택</option>
+                <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM50'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${searchRequest?.skill} == ${val?.id}"></option>
+              </select>
+            </div>
+            <div class="search-filter-item grade-filter">
+              <label for="grade">등급</label>
+              <select name="grade" id="grade">
+                <option value="" selected>전체선택</option>
+                <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM80'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${searchRequest?.grade} == ${val?.id}"></option>
+              </select>
+            </div>
+            <div class="search-filter-item date-filter">
+              <label>기간</label>
+              <input type="date" name="dateStart" id="dateAt1" th:value="${searchRequest?.dateStart} ? ${searchRequest?.dateStart} : ''" max="9999-12-31" />
+              <span>~</span>
+              <input type="date" name="dateEnd" id="dateAt2" th:value="${searchRequest?.dateEnd} ? ${searchRequest?.dateEnd} : ''" max="9999-12-31" />
+            </div>
+          </div>
+          <div class="search-filter-row">
+            <div class="search-filter-item location-filter">
+              <label for="others">기타</label>
+              <select name="others" id="location">
+                <option value="1" th:selected="${searchRequest?.others} == '1'">이름</option>
+                <option value="2" th:selected="${searchRequest?.others} == '2'">연락처</option>
+                <option value="3" th:selected="${searchRequest?.others} == '3'">이메일</option>
+              </select>
+              <input type="text" name="othersDetail" id="location-detail" placeholder="상세 입력" th:value="${searchRequest?.othersDetail} ? ${searchRequest?.othersDetail} : ''" />
+              <button class="btn primary">검색</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- 데이터 테이블 -->
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAll" /></th>
+              <th>순번</th>
+              <th>이름</th>
+              <th>연락처</th>
+              <th>이메일</th>
+              <th>직책</th>
+              <th>등급</th>
+              <th>기술</th>
+              <th>학력</th>
+              <th>입사일</th>
+              <th>상태</th>
+              <th>수정</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:if="${#lists.isEmpty(empList)}">
+              <td colspan="12">검색 결과가 없습니다</td>
+            </tr>
+            <tr th:each="user : ${empList}">
+              <td><input type="checkbox" th:name="userCheck" th:value="${user.id}" class="boxes" /></td>
+              <td th:text="${user.id}"></td>
+              <td>
+                <a th:text="${user.empName}" th:href="@{/member/detail/{id}(id=${user.id})}"></a>
+              </td>
+              <td th:text="${user.tel}"></td>
+              <td th:text="${user.email}"></td>
+              <td th:text="${user.jobTitle}"></td>
+              <td th:text="${user.grade}"></td>
+              <td th:text="${user.skill}"></td>
+              <td th:text="${user.education}"></td>
+              <td th:text="${user.enterAt}"></td>
+              <td>
+                <select name="status" class="empStatus" th:data-id="${user.id}">
+                  <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM40'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${val?.title} == ${user?.empStatus}"></option>
+                </select>
+              </td>
+              <td>
+                <a th:href="@{/member/edit/{id}(id=${user.id})}">수정</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 페이징 -->
+        <div class="pagination">
+          <ul class="page-list" th:each="page : ${pagination}">
+            <li class="page-arrow first">
+              <a th:href="@{|/member?cp=${pagination?.prevPage}&${query}|}">
+                <i class="ph-bold ph-caret-double-left"></i>
+              </a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:classappend="${page == pagination.currentPage} ? active : ''">
+              <a th:href="@{|/member?cp=${page}&${query}|}" th:utext="${page}"></a>
+            </li>
+            <li class="page-arrow last">
+              <a th:href="@{|/member?cp=${pagination?.nextPage}&${query}|}">
+                <i class="ph-bold ph-caret-double-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" th:src="@{/js/employee/employee-list.js}"></script>
+</body>
+
+</html>
