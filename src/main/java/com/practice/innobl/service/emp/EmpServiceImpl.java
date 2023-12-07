@@ -6,6 +6,7 @@ import com.practice.innobl.dto.emp.EmailCheckRequestDto;
 import com.practice.innobl.dto.emp.EmpRequestDto;
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
+import com.practice.innobl.dto.project.ProjectResponseDto;
 import com.practice.innobl.mapper.EmpRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.RowBounds;
@@ -85,5 +86,9 @@ public class EmpServiceImpl implements EmpService{
         return empRepository.getImgList();
     }
 
-
+    // 직원 상세내역 참여 프로젝트
+    @Override
+    public List<ProjectResponseDto> getProjectDetail(Long id) {
+        return empRepository.getProjectDetail(id);
+    }
 }

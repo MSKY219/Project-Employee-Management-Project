@@ -8,6 +8,7 @@ import com.practice.innobl.dto.emp.EmailCheckRequestDto;
 import com.practice.innobl.dto.emp.EmpRequestDto;
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
+import com.practice.innobl.dto.project.ProjectResponseDto;
 import com.practice.innobl.service.emp.EmpService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,7 @@ public class EmployeeController {
         searchRequest.setDateEnd(dateEnd);
         searchRequest.setOthers(others);
         searchRequest.setOthersDetail(othersDetail);
+
 
         String query = searchRequest.toQueryString();
 
@@ -143,6 +145,11 @@ public class EmployeeController {
     @GetMapping("/member/detail/{id}")
     public String empDetail(Model model, @PathVariable Long id) {
         List<EmpResponseDto> getEmpDetail = empService.empDetail(id);
+
+        // 직원 상세내역 참여 프로젝트
+        List<ProjectResponseDto> projectDetail = empService.getProjectDetail(id);
+
+        System.out.println("====================================projectDetail : " + projectDetail);
         model.addAttribute("empDetail", getEmpDetail);
         model.addAttribute("activeMenu", "memberList");
         return "employee-detail";

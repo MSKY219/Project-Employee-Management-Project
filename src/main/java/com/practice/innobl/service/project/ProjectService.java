@@ -1,6 +1,7 @@
 package com.practice.innobl.service.project;
 
 import com.practice.innobl.dto.emp.SearchRequest;
+import com.practice.innobl.dto.project.AddEmpRequestDto;
 import com.practice.innobl.dto.project.ProjectRequestDto;
 import com.practice.innobl.dto.project.ProjectResponseDto;
 
@@ -18,8 +19,14 @@ public interface ProjectService {
     int updateSt(ProjectRequestDto projectRequestDto);
 
     // 프로젝트 상세내역 조회
-    List<ProjectResponseDto> getProjectDetail(Long id);
+    List<ProjectResponseDto> getProjectDetail(String id);
 
     // 프로젝트 정보 수정
     int updateProject(ProjectRequestDto projectRequestDto);
+
+    // 프로젝트 직원 추가
+    int addEmp(AddEmpRequestDto addEmpRequestDto);
+
+    // 프로젝트 상세내역 직원 조회
+    Map<String, Object> getEmpList(int cp, SearchRequest searchRequest);
 }

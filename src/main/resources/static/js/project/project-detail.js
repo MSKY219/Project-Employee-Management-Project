@@ -1,13 +1,20 @@
 $(document).ready(function () {
 
 
-    const windowTest = $('.windowTest');
+    const addEmp = $('.addEmp');
+    const pId = $('#pId');
+    const pIdPop = $('#pId-pop');
+    const closeBtn = $('.closeBtn');
 
-    windowTest.on('click', () => {
+    addEmp.on('click', () => {
         console.log('추가 버튼 누름');
-        window.open('/project', 'test', 'width=1400px,height=700px,scrollbars=yes')
+        console.log("pId : " + pId.val());
+        let openedWindow = window.open('/project/getList/' + pId.val(), 'test', 'width=1400px,height=700px,scrollbars=yes');
     });
 
+    closeBtn.on('click', () => {
+        refreshing();
+    });
 
     // 체크 박스 선택
     const selectAll = $('#selectAll');
@@ -52,4 +59,37 @@ $(document).ready(function () {
 
         console.log("idArr : " + idArr);
     });
+
+    const addAll = $('.addAll');
+
+    addAll.on('click', () => {
+        console.log("추가 버튼 누름");
+        console.log("idArr : " + JSON.stringify(idArr));
+        console.log("pIdPop : " + pIdPop.val());
+
+        $.ajax({
+            url: "/project/add/member",
+            data: {
+                "empIdArr": idArr,
+                "projectId": pIdPop.val()
+            },
+            type: "post",
+            traditional: true,  // Set traditional to true for handling arrays
+            success: function (res) {
+                console.log("성공");
+                refreshing();
+            },
+            error: function () {
+                console.log("실패");
+            }
+        });
+
+    });
+
+
 });
+
+function refreshing() {
+    window.opener.location.reload();
+    window.close();
+}

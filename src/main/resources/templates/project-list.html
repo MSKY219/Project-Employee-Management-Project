@@ -91,16 +91,16 @@
               <th>종료일</th>
               <th>장소</th>
               <th>기술스택</th>
-              <th>투입인원</th>
               <th>상태</th>
               <th>수정</th>
+              <th>삭제</th>
             </tr>
           </thead>
           <tbody>
             <tr th:if="${#lists.isEmpty(projectList)}">
               <td colspan="12">검색 결과가 없습니다</td>
             </tr>
-            <tr th:each="project : ${projectList}">
+            <tr th:each="project,iterStat : ${projectList}">
               <td><input type="checkbox" th:name="userCheck" th:value="${project.id}" class="boxes" /></td>
               <td th:text="${project.id}"></td>
               <td>
@@ -111,7 +111,6 @@
               <td th:text="${project.endAt}"></td>
               <td th:text="${project.place}"></td>
               <td th:text="${project.skill}"></td>
-              <td>00 명</td>
               <td>
                 <select class="projectStatus" name="status" th:data-id="${project.id}">
                   <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM60'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${val?.title} == ${project?.status}"></option>
@@ -119,6 +118,9 @@
               </td>
               <td>
                 <a th:href="@{/project/edit/{id}(id=${project.id})}">수정</a>
+              </td>
+              <td>
+                <a>삭제</a>
               </td>
             </tr>
           </tbody>

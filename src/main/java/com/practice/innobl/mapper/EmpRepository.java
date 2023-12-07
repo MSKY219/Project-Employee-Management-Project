@@ -5,6 +5,7 @@ import com.practice.innobl.dto.emp.EmailCheckRequestDto;
 import com.practice.innobl.dto.emp.EmpRequestDto;
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
+import com.practice.innobl.dto.project.ProjectResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -40,5 +41,6 @@ public interface EmpRepository {
     // 사용중이지 않는 이미지 삭제
     List<String> getImgList();
 
-
+    // 직원 상세내역 참여 프로젝트
+    List<ProjectResponseDto> getProjectDetail(Long id);
 }

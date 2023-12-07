@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>직원 조회</title>
+  <title>직원 추가</title>
 
   <link th:href="@{/css/common/reset.css}" rel="stylesheet" />
   <link th:href="@{/css/common/common.css}" rel="stylesheet" />
@@ -12,6 +12,7 @@
   <link th:href="@{/css/components/search-filter.css}" rel="stylesheet" />
   <link th:href="@{/css/components/data-table.css}" rel="stylesheet" />
   <link th:href="@{/css/components/pagination.css}" rel="stylesheet" />
+  <link th:href="@{/css/page/project-popup.css}" rel="stylesheet" />
 
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -20,16 +21,15 @@
 <body>
   <div class="container">
     <main class="main">
-      <h1 class="page-title">직원 조회</h1>
-
+      <h1 class="page-title">직원 추가</h1>
       <ul class="breadcrumb">
         <li>
           <a href="#"><i class="ph-fill ph-house"></i></a>
         </li>
         <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
-        <li><a href="#">직원</a></li>
+        <li><a href="#">프로젝트</a></li>
         <li class="caret"><i class="ph-bold ph-caret-right"></i></li>
-        <li class="active"><a href="#">직원 조회</a></li>
+        <li class="active"><a href="#">상세내역</a></li>
       </ul>
 
       <div class="content">
@@ -73,6 +73,7 @@
                 <option value="3" th:selected="${searchRequest?.others} == '3'">이메일</option>
               </select>
               <input type="text" name="othersDetail" id="location-detail" placeholder="상세 입력" th:value="${searchRequest?.othersDetail} ? ${searchRequest?.othersDetail} : ''" />
+              <input type="hidden" name="projectId" th:value="${pId}" id="pId-pop" />
               <button class="btn primary">검색</button>
             </div>
           </div>
@@ -93,7 +94,6 @@
               <th>학력</th>
               <th>입사일</th>
               <th>상태</th>
-              <th>수정</th>
             </tr>
           </thead>
           <tbody>
@@ -113,31 +113,28 @@
               <td th:text="${user.skill}"></td>
               <td th:text="${user.education}"></td>
               <td th:text="${user.enterAt}"></td>
-              <td>
-                <select name="status" class="empStatus" th:data-id="${user.id}">
-                  <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM40'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${val?.title} == ${user?.empStatus}"></option>
-                </select>
-              </td>
-              <td>
-                <a th:href="@{/member/edit/{id}(id=${user.id})}">수정</a>
-              </td>
+              <td th:text="${user.empStatus}"></td>
             </tr>
           </tbody>
         </table>
 
         <!-- 페이징 -->
+        <div class="alignAddBtn">
+          <button class="closeBtn btn secondary">취소</button>
+          <button class="addAll btn primary">추가</button>
+        </div>
         <div class="pagination">
           <ul class="page-list" th:each="page : ${pagination}">
             <li class="page-arrow first">
-              <a th:href="@{|/member?cp=${pagination?.prevPage}&${query}|}">
+              <a th:href="@{|/project/getList/${pId}?cp=${pagination?.prevPage}&${query}|}">
                 <i class="ph-bold ph-caret-double-left"></i>
               </a>
             </li>
             <li th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:classappend="${page == pagination.currentPage} ? active : ''">
-              <a th:href="@{|/member?cp=${page}&${query}|}" th:utext="${page}"></a>
+              <a th:href="@{|/project/getList/${pId}?cp=${page}&${query}|}" th:utext="${page}"></a>
             </li>
             <li class="page-arrow last">
-              <a th:href="@{|/member?cp=${pagination?.nextPage}&${query}|}">
+              <a th:href="@{|/project/getList/${pId}?cp=${pagination?.nextPage}&${query}|}">
                 <i class="ph-bold ph-caret-double-right"></i>
               </a>
             </li>
@@ -146,8 +143,7 @@
       </div>
     </main>
   </div>
-
-  <script type="text/javascript" th:src="@{/js/employee/employee-list.js}"></script>
+  <script type="text/javascript" th:src="@{/js/project/project-detail.js}"></script>
 </body>
 
 </html>

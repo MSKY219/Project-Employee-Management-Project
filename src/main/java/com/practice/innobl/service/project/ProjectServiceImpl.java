@@ -3,6 +3,7 @@ package com.practice.innobl.service.project;
 import com.practice.innobl.dto.commoncode.Pagination;
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
+import com.practice.innobl.dto.project.AddEmpRequestDto;
 import com.practice.innobl.dto.project.ProjectRequestDto;
 import com.practice.innobl.dto.project.ProjectResponseDto;
 import com.practice.innobl.mapper.ProjectRepository;
@@ -53,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 상세내역 조회
     @Override
-    public List<ProjectResponseDto> getProjectDetail(Long id) {
+    public List<ProjectResponseDto> getProjectDetail(String id) {
         return projectRepository.getProjectDetail(id);
     }
 
@@ -61,5 +62,29 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public int updateProject(ProjectRequestDto projectRequestDto) {
         return projectRepository.updateProject(projectRequestDto);
+    }
+
+    // 프로젝트 직원 추가
+    @Override
+    public int addEmp(AddEmpRequestDto addEmpRequestDto) {
+        return projectRepository.addEmp(addEmpRequestDto);
+    }
+
+    // 프로젝트 상세내역 조회
+    @Override
+    public Map<String, Object> getEmpList(int cp, SearchRequest searchRequest) {
+
+        int listCount = projectRepository.getEmpListCount(searchRequest);
+
+        Pagination pagination = new Pagination(cp, listCount);
+        int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+        RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+        List<EmpResponseDto> selectedList = projectRepository.getEmpList(rowBounds, searchRequest);
+
+        Map<String, Object> getEmpList = new HashMap<String, Object>();
+        getEmpList.put("pagination", pagination);
+        getEmpList.put("getEmpList", selectedList);
+        return getEmpList;
     }
 }

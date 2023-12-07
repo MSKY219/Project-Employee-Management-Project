@@ -2,6 +2,7 @@ package com.practice.innobl.mapper;
 
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
+import com.practice.innobl.dto.project.AddEmpRequestDto;
 import com.practice.innobl.dto.project.ProjectRequestDto;
 import com.practice.innobl.dto.project.ProjectResponseDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,8 +26,17 @@ public interface ProjectRepository {
     int getListCount(SearchRequest searchRequest);
 
     // 프로젝트 상세내역 조회
-    List<ProjectResponseDto> getProjectDetail(Long id);
+    List<ProjectResponseDto> getProjectDetail(String id);
 
     // 프로젝트 정보 수정
     int updateProject(ProjectRequestDto projectRequestDto);
+
+    // 프로젝트 직원 추가
+    int addEmp(AddEmpRequestDto addEmpRequestDto);
+
+    // 프로젝트 상세내역 직원 수 조회
+    int getEmpListCount(SearchRequest searchRequest);
+
+    // 프로젝트 상세내역 직원 조회
+    List<EmpResponseDto> getEmpList(RowBounds rowBounds, SearchRequest searchRequest);
 }

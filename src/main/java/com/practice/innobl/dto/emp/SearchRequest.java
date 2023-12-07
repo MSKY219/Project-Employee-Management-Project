@@ -19,6 +19,7 @@ public class SearchRequest {
     private String dateEnd = "";
     private String others = "";
     private String othersDetail = "";
+    private String projectId = "";
 
     public String toQueryString() throws IllegalAccessException {
         StringBuffer parameter = new StringBuffer();
@@ -43,6 +44,7 @@ public class SearchRequest {
                 && grade.isEmpty()
                 && dateStart.isEmpty()
                 && dateEnd.isEmpty()
-                && othersDetail.isEmpty();
+                && othersDetail.isEmpty()
+                && projectId.isEmpty();
     }
 }

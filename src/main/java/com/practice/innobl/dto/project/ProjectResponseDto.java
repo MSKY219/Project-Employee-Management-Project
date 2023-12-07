@@ -10,7 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ProjectResponseDto {
-    private Long id;
+    private String id;
     private String pTitle;
     private String startAt;
     private String endAt;

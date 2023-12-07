@@ -20,3 +20,7 @@
 .detail-list .detail-list-header a {
   align-self: end;
 }
+
+.addEmp {
+  cursor: pointer;
+}
