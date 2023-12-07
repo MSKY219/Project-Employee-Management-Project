@@ -87,4 +87,10 @@ public class ProjectServiceImpl implements ProjectService{
         getEmpList.put("getEmpList", selectedList);
         return getEmpList;
     }
+
+    // 프로젝트 참여 직원 삭제
+    @Override
+    public int deleteEmp(AddEmpRequestDto addEmpRequestDto) {
+        return projectRepository.deleteEmp(addEmpRequestDto);
+    }
 }

@@ -73,6 +73,7 @@
                 </tr>
               </tbody>
             </table>
+            <input type="hidden" name="projectId" th:value="${pId}" id="pId-pop" />
           </form>
           <div class="project-edit">
             <div class="align-btns">
@@ -100,7 +101,6 @@
                 <th>투입일</th>
                 <th>철수일</th>
                 <th>상태</th>
-                <th>삭제</th>
               </tr>
             </thead>
             <tbody>
@@ -113,13 +113,12 @@
                 <td>
                   <a th:text="${user.empName}" th:href="@{/member/detail/{id}(id=${user.id})}"></a>
                 </td>
-                <td th:text="${user.tel}"></td>
-                <td th:text="${user.email}"></td>
                 <td th:text="${user.jobTitle}"></td>
                 <td th:text="${user.grade}"></td>
                 <td th:text="${user.skill}"></td>
-                <td th:text="${user.education}"></td>
-                <td th:text="${user.enterAt}"></td>
+                <td>역할</td>
+                <td>-</td>
+                <td>-</td>
                 <td th:text="${user.empStatus}"></td>
               </tr>
             </tbody>
@@ -127,8 +126,8 @@
 
           <!-- 페이징 -->
           <div class="alignAddBtn">
-            <button class="closeBtn btn secondary">취소</button>
-            <button class="addAll btn primary">추가</button>
+            <button class="closeBtn btn secondary">뒤로가기</button>
+            <button class="deleteAll btn primary">삭제하기</button>
           </div>
           <div class="pagination">
             <ul class="page-list" th:each="page : ${pagination}">

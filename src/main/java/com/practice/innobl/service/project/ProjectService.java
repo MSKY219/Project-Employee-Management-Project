@@ -29,4 +29,7 @@ public interface ProjectService {
 
     // 프로젝트 상세내역 직원 조회
     Map<String, Object> getEmpList(int cp, SearchRequest searchRequest);
+
+    // 프로젝트 참여 직원 삭제
+    int deleteEmp(AddEmpRequestDto addEmpRequestDto);
 }

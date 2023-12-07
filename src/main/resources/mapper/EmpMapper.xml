@@ -59,6 +59,7 @@
     <!--  직원 목록 창 이동  -->
     <select id="getEmpList" resultType="com.practice.innobl.dto.emp.EmpResponseDto">
         select
+        distinct
         e.id,
         e.empname,
         e.addrmain,
@@ -75,10 +76,7 @@
         cd5.title as skill,
         cd6.title as grade,
         cd7.title as education,
-        regno,
-        pd.employee_id,
-        pd.project_id,
-        pd.deleted
+        regno
         from employee e
         <!-- 성별 -->
         left outer join commondefinition cd1 on (cd1.commoncode_id = 'CM10' AND e.gender = cd1.id)
@@ -118,14 +116,14 @@
                 and e.email like concat ('%', #{othersDetail} '%')
             </if>
             <if test="projectId != ''">
-                (pd.project_id IS NULL OR (pd.project_id = #{projectId} AND pd.deleted = 'N' AND NOT EXISTS (SELECT 1 FROM pdetail pd2 WHERE pd2.employee_id = e.id AND pd2.project_id = #{projectId} AND pd2.deleted = 'N' AND pd2.id != pd.id)))
+                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in (select distinct employee_id FROM pdetail WHERE project_id = #{projectId}))) and e.empstatus != '4')
             </if>
         </where>
     </select>
 
     <!--  직원 목록 조회 시, 페이징을 위한 숫자 조회  -->
     <select id="getListCount" resultType="_int">
-        select count(e.id)
+        select distinct count(e.id)
         from employee e
         left outer join pdetail pd on e.id = pd.employee_id
         <where>
@@ -151,7 +149,7 @@
                 and e.email like concat ('%', #{othersDetail} '%')
             </if>
             <if test="projectId != ''">
-                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in (select distinct employee_id FROM pdetail WHERE project_id = #{projectId}))))
+                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in (select distinct employee_id FROM pdetail WHERE project_id = #{projectId})))and e.empstatus != '4')
             </if>
         </where>
     </select>
@@ -297,6 +295,6 @@
         left outer join commondefinition c1 on (c1.commoncode_id = 'CM70' and p.client = c1.id)
         left outer join commondefinition c2 on (c2.commoncode_id = 'CM100' and pd.role = c2.id)
         left outer join commondefinition c3 on (c3.commoncode_id = 'CM50' and p.skill = c3.id)
-        where employee_id = #{id};
+        where employee_id = #{id}
     </select>
 </mapper>

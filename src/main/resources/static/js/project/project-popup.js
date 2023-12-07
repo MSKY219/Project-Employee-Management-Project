@@ -56,13 +56,11 @@ $(document).ready(function () {
         console.log("idArr : " + idArr);
     });
 
-    const deleteAll = $('.deleteAll');
-    deleteAll.on('click', () => {
-        console.log("삭제 버튼 누름");
-        console.log("idArr : " + JSON.stringify(idArr));
-        console.log("pIdPop : " + pIdPop.val());
+    const addAll = $('.addAll');
+    addAll.on('click', () => {
+
         $.ajax({
-            url: "/project/delete/member",
+            url: "/project/add/member",
             data: {
                 "empIdArr": idArr,
                 "projectId": pIdPop.val()
@@ -71,8 +69,7 @@ $(document).ready(function () {
             traditional: true,
             success: function (res) {
                 console.log("성공");
-                window.location.reload();
-                alert("삭제 성공");
+                refreshing();
             },
             error: function () {
                 console.log("실패");
@@ -81,3 +78,8 @@ $(document).ready(function () {
 
     });
 });
+
+function refreshing() {
+    window.opener.location.reload();
+    window.close();
+}

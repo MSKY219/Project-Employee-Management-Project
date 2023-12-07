@@ -24,3 +24,13 @@
 .addEmp {
   cursor: pointer;
 }
+
+.alignAddBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+
+.closeBtn {
+  margin-right: 15px;
+}

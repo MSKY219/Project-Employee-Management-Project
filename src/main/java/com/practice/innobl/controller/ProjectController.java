@@ -204,7 +204,7 @@ public class ProjectController {
         return "project-popup";
     }
 
-    // 프로젝트 직원 추가
+    // 프로젝트 참여 직원 추가
     @PostMapping("/project/add/member")
     public @ResponseBody String addEmp(
             @RequestParam(value = "empIdArr") String[] eArr,
@@ -216,12 +216,35 @@ public class ProjectController {
 
         if (eArr != null && eArr.length > 0) {
             for (int i = 0; i < eArr.length; i++) {
-                System.out.println("eArr의 " + i + "번째 값은 : " + eArr[i] + "함꼐 넘어갈 pId : " + pId);
+                System.out.println("eArr의 " + i + "번째 값은 : " + eArr[i] + "함께 넘어갈 pId : " + pId);
                 addEmpRequestDto.setEmployeeId(eArr[i]);
                 addEmpRequestDto.setProjectId(pId);
                 System.out.println(i + 1 + "번쨰");
 
                 int result = projectService.addEmp(addEmpRequestDto);
+            }
+        }
+        return null;
+    }
+
+    // 프로젝트 참여 직원 삭제
+    @PostMapping("/project/delete/member")
+    public @ResponseBody String deleteEmp(
+            @RequestParam(value = "empIdArr") String[] eArr,
+            @RequestParam(value = "projectId") Long pId
+    ) {
+        AddEmpRequestDto addEmpRequestDto = new AddEmpRequestDto();
+        System.out.println("eArr : " + Arrays.toString(eArr));
+        System.out.println("pId : " + pId);
+
+        if (eArr != null && eArr.length > 0) {
+            for (int i = 0; i < eArr.length; i++) {
+                System.out.println("eArr의 " + i + "번째 값은 : " + eArr[i] + "함께 넘어갈 pId : " + pId);
+                addEmpRequestDto.setEmployeeId(eArr[i]);
+                addEmpRequestDto.setProjectId(pId);
+                System.out.println(i + 1 + "번쨰");
+
+                int result = projectService.deleteEmp(addEmpRequestDto);
             }
         }
         return null;

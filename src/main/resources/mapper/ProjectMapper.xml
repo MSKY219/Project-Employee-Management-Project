@@ -217,10 +217,7 @@
         cd5.title as skill,
         cd6.title as grade,
         cd7.title as education,
-        regno,
-        pd.employee_id,
-        pd.project_id,
-        pd.deleted
+        regno
         from employee e
         left outer join pdetail pd on e.id = pd.employee_id
         <!-- 성별 -->
@@ -260,7 +257,7 @@
                 and e.email like concat ('%', #{othersDetail} '%')
             </if>
             <if test="projectId != ''">
-                and (pd.project_id is not null and ((pd.project_id like #{projectId}) AND pd.deleted = 'N'))
+                and (pd.project_id is not null and ((pd.project_id like #{projectId}) and pd.deleted = 'N'))
             </if>
         </where>
         order by e.id asc
@@ -294,9 +291,17 @@
                 and e.email like concat ('%', #{othersDetail} '%')
             </if>
             <if test="projectId != ''">
-                and (pd.project_id is not null and ((pd.project_id like #{projectId}) AND pd.deleted = 'N'))
+                and (pd.project_id is not null and ((pd.project_id like #{projectId}) and pd.deleted = 'N'))
             </if>
         </where>
         order by e.id asc
     </select>
+
+    <!-- 프로젝트 참여 직원 삭제 -->
+    <delete id="deleteEmp" parameterType="com.practice.innobl.dto.project.AddEmpRequestDto">
+        delete from pdetail
+        where
+        employee_id = #{employeeId}
+        and project_id = #{projectId}
+    </delete>
 </mapper>
