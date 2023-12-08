@@ -37,5 +37,8 @@ public interface EmpService {
     List<String> getImgList();
 
     // 직원 상세내역 참여 프로젝트
-    List<ProjectResponseDto> getProjectDetail(Long id);
+    Map<String, Object> getProjectDetail(int cp, Long id);
+
+    // 프로젝트 팝업창 직원 정보 수정
+    Map<String, Object> listForEdit(int cp, SearchRequest searchRequest);
 }

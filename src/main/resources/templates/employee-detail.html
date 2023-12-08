@@ -90,8 +90,8 @@
                   <td><input type="text" id="grade" name="grade" placeholder="기술등급" readonly th:value="${emp?.grade}" /></td>
                 </tr>
                 <tr>
-                  <th><label for="edu">힉력</label></th>
-                  <td><input type="text" id="edu" name="edu" placeholder="힉력" readonly th:value="${emp?.education}" /></td>
+                  <th><label for="edu">학력</label></th>
+                  <td><input type="text" id="edu" name="edu" placeholder="학력" readonly th:value="${emp?.education}" /></td>
                   <th><label for="tech">기술스택</label></th>
                   <td><input type="text" id="tech" name="tech" placeholder="기술스택" readonly th:value="${emp?.skill}" /></td>
                 </tr>
@@ -99,6 +99,7 @@
                   <th><label for="edu">상태</label></th>
                   <td><input type="text" id="empStatus" name="empStatus" placeholder="상태" readonly th:value="${emp?.empStatus}" /></td>
                 </tr>
+                <input type="hidden" th:value="${emp.id}" id="eId" />
               </tbody>
             </table>
           </form>
@@ -108,7 +109,7 @@
         <div class="detail-list">
           <div class="detail-list-header">
             <h2>참여 프로젝트</h2>
-            <a href="#">프로젝트 추가</a>
+            <a class="addEmp">프로젝트 추가</a>
           </div>
           <table class="data-table">
             <thead>
@@ -122,39 +123,47 @@
                 <th>장소</th>
                 <th>역할</th>
                 <th>기술스택</th>
-                <th>상태</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><input type="checkbox" class="boxes" /></td>
-                <!-- <td><input type="checkbox" th:name="userCheck" th:value="${user.id}" class="boxes" /></td> -->
-                <td>1</td>
-                <td>프로젝트 A</td>
-                <td>A회사</td>
-                <td>2023-11-29</td>
-                <td>2023-12-29</td>
-                <td>강남</td>
-                <td>PM</td>
-                <td>JAVA</td>
+              <tr th:if="${#lists.isEmpty(empProjectList)}">
+                <td colspan="12">검색 결과가 없습니다</td>
+              </tr>
+              <tr th:each="project, status : ${empProjectList}">
+                <td><input type="checkbox" th:name="userCheck" th:value="${project.id}" class="boxes" /></td>
+                <td th:text="${status.index + 1}"></td>
                 <td>
-                  <a href="#">삭제</a>
+                  <a th:text="${project.pTitle}" th:href="@{/project/detail/{id}(id=${project.pId})}"></a>
                 </td>
+                <td th:text="${project.client}"></td>
+                <td th:text="${project.startAt}"></td>
+                <td th:text="${project.endAt}"></td>
+                <td th:text="${project.place}"></td>
+                <td th:text="${project.role}"></td>
+                <td th:text="${project.skill}"></td>
               </tr>
             </tbody>
           </table>
 
           <!-- 페이징 -->
+          <div class="alignAddBtn">
+            <button class="closeBtn btn secondary">뒤로가기</button>
+            <button class="deleteAll btn primary">삭제하기</button>
+          </div>
           <div class="pagination">
-            <ul class="page-list">
+            <ul class="page-list" th:each="page : ${pagination}">
               <li class="page-arrow first">
-                <a href="#"><i class="ph-bold ph-caret-double-left"></i></a>
+                <a th:href="@{|/member/detail/${eId}?cp=${pagination?.prevPage}&${query}|}">
+                  <i class="ph-bold ph-caret-double-left"></i>
+                </a>
               </li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
+              <li th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:classappend="${page == pagination.currentPage} ? active : ''">
+                <a th:href="@{|/member/detail/${eId}?cp=${page}&${query}|}" th:utext="${page}"></a>
+              </li>
               <li class="page-arrow last">
-                <a href="#"><i class="ph-bold ph-caret-double-right"></i></a>
+                <a th:href="@{|/member/detail/${eId}?cp=${pagination?.nextPage}&${query}|}">
+                  <i class="ph-bold ph-caret-double-right"></i>
+                </a>
               </li>
             </ul>
           </div>
@@ -162,6 +171,8 @@
       </div>
     </main>
   </div>
+
+  <script type="text/javascript" th:src="@{/js/employee/employee-detail.js}"></script>
 </body>
 
 </html>

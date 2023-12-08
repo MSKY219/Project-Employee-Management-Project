@@ -1,21 +1,16 @@
 $(document).ready(function () {
     const addEmp = $('.addEmp');
-    const pId = $('#pId');
-    const pIdPop = $('#pId-pop');
+    const eId = $('#eId');
     const closeBtn = $('.closeBtn');
-    const editBtn = $('.editBtn');
 
     addEmp.on('click', () => {
-        let openedWindow = window.open('/project/getList/' + pId.val(), 'test', 'width=1400px,height=700px,scrollbars=yes');
+        console.log('추가 버튼 누름');
+        console.log("eId : " + eId.val());
+        let openedWindow = window.open('/member/getList/' + eId.val(), 'test', 'width=1400px,height=700px,scrollbars=yes');
     });
 
     closeBtn.on('click', () => {
         window.history.back();
-    });
-
-    editBtn.on('click', () => {
-        console.log("수정버튼 누름");
-        let openedWindow = window.open('/project/editList/' + pId.val(), 'test', 'width=1400px,height=700px,scrollbars=yes');
     });
 
     // 체크 박스 선택
@@ -30,11 +25,11 @@ $(document).ready(function () {
         boxes.prop('checked', checked); // 모든 체크박스에 대해 상태 변경
 
         if (checked) {
-            // 전체 선택 시 모든 pId를 배열에 추가
+            // 전체 선택 시 모든 eId 배열에 추가
             idArr.length = 0; // 배열 비우기
             boxes.each(function () {
-                let pId = $(this).val();
-                idArr.push(pId);
+                let eId = $(this).val();
+                idArr.push(eId);
             });
         } else {
             // 전체 해제 시 배열 비우기
@@ -46,12 +41,12 @@ $(document).ready(function () {
 
     boxes.on('change', (e) => {
         let clickTarget = $(e.currentTarget);
-        let pId = clickTarget.val();
+        let eId = clickTarget.val();
 
         if (clickTarget.prop('checked')) {
-            idArr.push(pId);
+            idArr.push(eId);
         } else {
-            let index = idArr.indexOf(pId);
+            let index = idArr.indexOf(eId);
             if (index !== -1) {
                 idArr.splice(index, 1);
             }
@@ -63,13 +58,14 @@ $(document).ready(function () {
     const deleteAll = $('.deleteAll');
     deleteAll.on('click', () => {
         console.log("삭제 버튼 누름");
-        console.log("idArr : " + JSON.stringify(idArr));
-        console.log("pIdPop : " + pIdPop.val());
+        console.log("pdetail.id : " + JSON.stringify(idArr));
+        console.log("user.id : " + eId.val());
+
         $.ajax({
-            url: "/project/delete/member",
+            url: "/member/delete/project",
             data: {
-                "empIdArr": idArr,
-                "projectId": pIdPop.val()
+                "pIdArr": idArr,
+                "empId": eId.val()
             },
             type: "post",
             traditional: true,

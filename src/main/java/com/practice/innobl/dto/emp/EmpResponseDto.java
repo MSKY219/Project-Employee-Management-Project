@@ -27,4 +27,5 @@ public class EmpResponseDto { // 직원 조회
     private String grade;
     private String education;
     private String regNo;
+    private String role;
 }

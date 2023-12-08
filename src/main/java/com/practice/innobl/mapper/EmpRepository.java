@@ -41,6 +41,15 @@ public interface EmpRepository {
     // 사용중이지 않는 이미지 삭제
     List<String> getImgList();
 
-    // 직원 상세내역 참여 프로젝트
-    List<ProjectResponseDto> getProjectDetail(Long id);
+    // 직원 상세내역 조회 시, 참여 프로젝트 수 조회
+    int getEmpProjectCount(Long id);
+
+    // 직원 상세내역 조회 시, 참여 프로젝트 조회
+    List<ProjectResponseDto> getEmpProjectList(RowBounds rowBounds, Long id);
+
+    // 프로젝트 팝업창 직원 정보 수정 시 숫자 확인
+    int getEditListCount(SearchRequest searchRequest);
+
+    // 프로젝트 팝업창 직원 정보 수정 목록 조회
+    List<ProjectResponseDto> getEditList(RowBounds rowBounds, SearchRequest searchRequest);
 }

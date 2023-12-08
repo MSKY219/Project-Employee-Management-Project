@@ -1,5 +1,7 @@
 package com.practice.innobl.service.project;
 
+import com.practice.innobl.dto.emp.AddProjectRequestDto;
+import com.practice.innobl.dto.emp.EmpDetailDeleteRequestDto;
 import com.practice.innobl.dto.emp.SearchRequest;
 import com.practice.innobl.dto.project.AddEmpRequestDto;
 import com.practice.innobl.dto.project.ProjectRequestDto;
@@ -32,4 +34,10 @@ public interface ProjectService {
 
     // 프로젝트 참여 직원 삭제
     int deleteEmp(AddEmpRequestDto addEmpRequestDto);
+
+    // 직원 상세내역에서 프로젝트 추가하기
+    int addProjectToEmp(AddProjectRequestDto addProjectRequestDto);
+
+    // 직원 상세페이지에서 프로젝트 삭제
+    int deleteProject(EmpDetailDeleteRequestDto empDetailDeleteRequestDto);
 }

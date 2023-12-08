@@ -18,4 +18,9 @@ public class ProjectResponseDto {
     private String skill;
     private String client;
     private String status;
+    private String role;
+    private String pId;
+    private String empName;
+    private String jobTitle;
+    private String grade;
 }

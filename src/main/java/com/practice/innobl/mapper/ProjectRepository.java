@@ -1,5 +1,7 @@
 package com.practice.innobl.mapper;
 
+import com.practice.innobl.dto.emp.AddProjectRequestDto;
+import com.practice.innobl.dto.emp.EmpDetailDeleteRequestDto;
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
 import com.practice.innobl.dto.project.AddEmpRequestDto;
@@ -31,7 +33,7 @@ public interface ProjectRepository {
     // 프로젝트 정보 수정
     int updateProject(ProjectRequestDto projectRequestDto);
 
-    // 프로젝트 직원 추가
+    // 프로젝트에서 직원 추가 및 직원 상세내역에서 프로젝트 추가하기
     int addEmp(AddEmpRequestDto addEmpRequestDto);
 
     // 프로젝트 상세내역 직원 수 조회
@@ -42,4 +44,10 @@ public interface ProjectRepository {
 
     // 프로젝트 참여 직원 삭제
     int deleteEmp(AddEmpRequestDto addEmpRequestDto);
+
+    // 직원 상세내역에서 프로젝트 추가하기
+    int addProjectToEmp(AddProjectRequestDto addProjectRequestDto);
+
+    // 직원 상세페이지에서 프로젝트 삭제
+    int deleteProject(EmpDetailDeleteRequestDto empDetailDeleteRequestDto);
 }

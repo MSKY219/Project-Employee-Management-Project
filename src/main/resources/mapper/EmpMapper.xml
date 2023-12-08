@@ -207,7 +207,7 @@
         select count(e.email)
         from employee e
         where e.email = #{email}
-        <if test="id != ''">
+        <if test="id != '' || id != null">
             and e.id != #{id}
         </if>
     </select>
@@ -280,21 +280,63 @@
     </select>
 
     <!--  직원 상세내역 참여 프로젝트  -->
-    <select id="getProjectDetail" resultType="com.practice.innobl.dto.project.ProjectResponseDto">
+    <select id="getEmpProjectList" resultType="com.practice.innobl.dto.project.ProjectResponseDto">
         select
-        pd.id
-        , p.pTitle as pTitle
-        , c1.title as client
-        , pd.startAt
-        , pd.endAt
-        , p.place as place
-        , c2.title as role
-        , c3.title as skill
+        pd.id,
+        p.id as pId,
+        p.pTitle,
+        cd1.title as client,
+        pd.startAt,
+        pd.endAt,
+        p.place,
+        cd2.title as role,
+        cd3.title as skill
         from pdetail pd
-        left outer join project p on p.id = pd.project_id
-        left outer join commondefinition c1 on (c1.commoncode_id = 'CM70' and p.client = c1.id)
-        left outer join commondefinition c2 on (c2.commoncode_id = 'CM100' and pd.role = c2.id)
-        left outer join commondefinition c3 on (c3.commoncode_id = 'CM50' and p.skill = c3.id)
+        join project p on pd.project_id = p.id
+        join commondefinition cd1 on (cd1.commoncode_id = 'CM70' and p.client = cd1.id)
+        join commondefinition cd2 on (cd2.commoncode_id = 'CM100' and pd.role = cd2.id)
+        join commondefinition cd3 on (cd3.commoncode_id = 'CM50' and p.skill = cd3.id)
         where employee_id = #{id}
+        order by pd.id asc
     </select>
+
+    <!--  직원 상세내역 조회 시, 참여 프로젝트 수 조회  -->
+    <select id="getEmpProjectCount" resultType="_int">
+        select count(pd.id)
+        from pdetail pd
+        where pd.employee_id = #{id}
+    </select>
+
+    <!--  직원 등록 및 수정 시, 이메일 중복 확인  -->
+    <select id="getEditListCount" parameterType="string" resultType="_int">
+        select count(pd.id)
+        from pdetail pd
+        where pd.project_id = #{projectId}
+    </select>
+
+    <!--  프로젝트 팝업창 직원 정보 수정 목록 조회  -->
+    <select id="getEditList" resultType="com.practice.innobl.dto.project.ProjectResponseDto">
+        select
+        e.empname as empName,
+        cd4.title as jobTitle,
+        cd5.title as grade,
+        cd3.title as skill,
+        cd1.title as client,
+        cd2.title as role,
+        pd.startAt,
+        pd.endAt,
+        cd6.title as status
+        from pdetail pd
+        join project p on pd.project_id = p.id
+        join employee e on pd.employee_id = e.id
+        join commondefinition cd1 on (cd1.commoncode_id = 'CM70' and p.client = cd1.id)
+        join commondefinition cd2 on (cd2.commoncode_id = 'CM100' and pd.role = cd2.id)
+        join commondefinition cd3 on (cd3.commoncode_id = 'CM50' and e.skill = cd3.id)
+        join commondefinition cd4 on (cd4.commoncode_id = 'CM20' AND e.jobtitle = cd4.id)
+        join commondefinition cd5 on (cd5.commoncode_id = 'CM80' AND e.grade = cd5.id)
+        join commondefinition cd6 on (cd6.commoncode_id = 'CM40' AND e.empstatus = cd6.id)
+        where project_id = #{projectId}
+    </select>
+
+
 </mapper>

@@ -1,13 +1,13 @@
 $(document).ready(function () {
     const addEmp = $('.addEmp');
-    const pId = $('#pId');
-    const pIdPop = $('#pId-pop');
+    const eId = $('#eId');
+    const eIdPop = $('#eId-pop');
     const closeBtn = $('.closeBtn');
 
     addEmp.on('click', () => {
         console.log('추가 버튼 누름');
-        console.log("pId : " + pId.val());
-        let openedWindow = window.open('/project/getList/' + pId.val(), 'test', 'width=1400px,height=700px,scrollbars=yes');
+        console.log("eId : " + eId.val());
+        let openedWindow = window.open('/project/getList/' + eId.val(), 'test', 'width=1400px,height=700px,scrollbars=yes');
     });
 
     closeBtn.on('click', () => {
@@ -26,11 +26,11 @@ $(document).ready(function () {
         boxes.prop('checked', checked); // 모든 체크박스에 대해 상태 변경
 
         if (checked) {
-            // 전체 선택 시 모든 pId를 배열에 추가
+            // 전체 선택 시 모든 eId 배열에 추가
             idArr.length = 0; // 배열 비우기
             boxes.each(function () {
-                let pId = $(this).val();
-                idArr.push(pId);
+                let eId = $(this).val();
+                idArr.push(eId);
             });
         } else {
             // 전체 해제 시 배열 비우기
@@ -42,12 +42,12 @@ $(document).ready(function () {
 
     boxes.on('change', (e) => {
         let clickTarget = $(e.currentTarget);
-        let pId = clickTarget.val();
+        let eId = clickTarget.val();
 
         if (clickTarget.prop('checked')) {
-            idArr.push(pId);
+            idArr.push(eId);
         } else {
-            let index = idArr.indexOf(pId);
+            let index = idArr.indexOf(eId);
             if (index !== -1) {
                 idArr.splice(index, 1);
             }
@@ -130,10 +130,10 @@ $(document).ready(function () {
     addAll.on('click', () => {
 
         $.ajax({
-            url: "/project/add/member",
+            url: "/member/add/project",
             data: {
-                "empIdArr": idArr,
-                "projectId": pIdPop.val()
+                "projectIdArr": idArr,
+                "empId": eIdPop.val()
             },
             type: "post",
             traditional: true,

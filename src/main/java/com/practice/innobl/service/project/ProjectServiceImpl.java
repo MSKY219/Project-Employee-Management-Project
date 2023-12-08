@@ -1,6 +1,8 @@
 package com.practice.innobl.service.project;
 
 import com.practice.innobl.dto.commoncode.Pagination;
+import com.practice.innobl.dto.emp.AddProjectRequestDto;
+import com.practice.innobl.dto.emp.EmpDetailDeleteRequestDto;
 import com.practice.innobl.dto.emp.EmpResponseDto;
 import com.practice.innobl.dto.emp.SearchRequest;
 import com.practice.innobl.dto.project.AddEmpRequestDto;
@@ -82,15 +84,27 @@ public class ProjectServiceImpl implements ProjectService{
 
         List<EmpResponseDto> selectedList = projectRepository.getEmpList(rowBounds, searchRequest);
 
-        Map<String, Object> getEmpList = new HashMap<String, Object>();
-        getEmpList.put("pagination", pagination);
-        getEmpList.put("getEmpList", selectedList);
-        return getEmpList;
+        Map<String, Object> getProjectList = new HashMap<String, Object>();
+        getProjectList.put("pagination", pagination);
+        getProjectList.put("getEmpList", selectedList);
+        return getProjectList;
     }
 
     // 프로젝트 참여 직원 삭제
     @Override
     public int deleteEmp(AddEmpRequestDto addEmpRequestDto) {
         return projectRepository.deleteEmp(addEmpRequestDto);
+    }
+
+    // 직원 상세내역에서 프로젝트 추가하기
+    @Override
+    public int addProjectToEmp(AddProjectRequestDto addProjectRequestDto) {
+        return projectRepository.addProjectToEmp(addProjectRequestDto);
+    }
+
+    // 직원 상세페이지에서 프로젝트 삭제
+    @Override
+    public int deleteProject(EmpDetailDeleteRequestDto empDetailDeleteRequestDto) {
+        return projectRepository.deleteProject(empDetailDeleteRequestDto);
     }
 }

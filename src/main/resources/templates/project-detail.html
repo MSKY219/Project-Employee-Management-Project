@@ -107,16 +107,16 @@
               <tr th:if="${#lists.isEmpty(empList)}">
                 <td colspan="12">검색 결과가 없습니다</td>
               </tr>
-              <tr th:each="user : ${empList}">
+              <tr th:each="user, status : ${empList}">
                 <td><input type="checkbox" th:name="userCheck" th:value="${user.id}" class="boxes" /></td>
-                <td th:text="${user.id}"></td>
+                <td th:text="${status.index + 1}"></td>
                 <td>
                   <a th:text="${user.empName}" th:href="@{/member/detail/{id}(id=${user.id})}"></a>
                 </td>
                 <td th:text="${user.jobTitle}"></td>
                 <td th:text="${user.grade}"></td>
                 <td th:text="${user.skill}"></td>
-                <td>역할</td>
+                <td th:text="${user.role}"></td>
                 <td>-</td>
                 <td>-</td>
                 <td th:text="${user.empStatus}"></td>
@@ -127,6 +127,7 @@
           <!-- 페이징 -->
           <div class="alignAddBtn">
             <button class="closeBtn btn secondary">뒤로가기</button>
+            <button class="editBtn btn secondary">수정하기</button>
             <button class="deleteAll btn primary">삭제하기</button>
           </div>
           <div class="pagination">

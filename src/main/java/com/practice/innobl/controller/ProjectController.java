@@ -54,9 +54,9 @@ public class ProjectController {
         List<CommondefinitionDto> getAddOption = empService.getAddOptions();
 
         if (isSearch) {
-            Map<String, Object> getProjectList = projectService.getProjectList(cp, searchRequest);
-            model.addAttribute("projectList", getProjectList.get("getProjectList"));
-            model.addAttribute("pagination", getProjectList.get("pagination"));
+            Map<String, Object> selectProjectList = projectService.getProjectList(cp, searchRequest);
+            model.addAttribute("projectList", selectProjectList.get("getProjectList"));
+            model.addAttribute("pagination", selectProjectList.get("pagination"));
         }
         model.addAttribute("optionList", getAddOption);
         model.addAttribute("projectMenu", "projectList");
@@ -248,5 +248,53 @@ public class ProjectController {
             }
         }
         return null;
+    }
+
+
+    // 프로젝트 팝업창 직원 정보 수정
+    @GetMapping("/project/editList/{pId}")
+    public String editEmpInfo(Model model,
+                              @PathVariable("pId") Long pId,
+                              @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+                              @RequestParam(value = "status", required = false, defaultValue = "") String status,
+                              @RequestParam(value = "skill", required = false, defaultValue = "") String skill,
+                              @RequestParam(value = "grade", required = false, defaultValue = "") String grade,
+                              @RequestParam(value = "dateStart", required = false, defaultValue = "") String dateStart,
+                              @RequestParam(value = "dateEnd", required = false, defaultValue = "") String dateEnd,
+                              @RequestParam(value = "others", required = false, defaultValue = "") String others,
+                              @RequestParam(value = "othersDetail", required = false, defaultValue = "") String othersDetail,
+                              @RequestParam(value = "projectId", required = false, defaultValue = "") String projectId
+    ) throws IllegalAccessException {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setStatus(status);
+        searchRequest.setSkill(skill);
+        searchRequest.setGrade(grade);
+        searchRequest.setDateStart(dateStart);
+        searchRequest.setDateEnd(dateEnd);
+        searchRequest.setOthers(others);
+        searchRequest.setOthersDetail(othersDetail);
+        searchRequest.setProjectId(projectId);
+
+        String query = searchRequest.toQueryString();
+
+        System.out.println(searchRequest);
+
+        System.out.println("========================================================= pId : " + pId);
+
+        boolean isSearch = !searchRequest.isEmpty();
+
+        List<CommondefinitionDto> getAddOption = empService.getAddOptions();
+        if (isSearch) {
+            Map<String, Object> getListForEdit = empService.listForEdit(cp, searchRequest);
+            model.addAttribute("empList", getListForEdit.get("getProjectDetail"));
+            model.addAttribute("pagination", getListForEdit.get("pagination"));
+        }
+        model.addAttribute("optionList", getAddOption);
+        model.addAttribute("activeMenu", "memberList");
+        model.addAttribute("searchRequest", searchRequest);
+        model.addAttribute("query", query);
+        model.addAttribute("pId", pId);
+
+        return "project-editpopup";
     }
 }

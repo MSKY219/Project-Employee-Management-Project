@@ -125,7 +125,7 @@
               <tr>
                 <th><label for="edu">학력</label></th>
                 <td>
-                  <select id="edu" name="edu" placeholder="힉력">
+                  <select id="edu" name="edu" placeholder="학력">
                     <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM90'}" th:value="${val?.id}" th:utext="${val?.title}"></option>
                   </select>
                 </td>

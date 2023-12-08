@@ -88,7 +88,40 @@ public class EmpServiceImpl implements EmpService{
 
     // 직원 상세내역 참여 프로젝트
     @Override
-    public List<ProjectResponseDto> getProjectDetail(Long id) {
-        return empRepository.getProjectDetail(id);
+    public Map<String, Object> getProjectDetail(int cp, Long id) {
+
+        // 직원 상세내역 조회 시, 참여 프로젝트 수 조회
+        int listCount = empRepository.getEmpProjectCount(id);
+
+        Pagination pagination = new Pagination(cp, listCount);
+        int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+        RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+        // 직원 상세내역 조회 시, 참여 프로젝트 조회
+        List<ProjectResponseDto> selectedList = empRepository.getEmpProjectList(rowBounds, id);
+
+        Map<String, Object> getEmpProject = new HashMap<String, Object>();
+        getEmpProject.put("pagination", pagination);
+        getEmpProject.put("getProjectDetail", selectedList);
+        return getEmpProject;
+    }
+
+    // 프로젝트 팝업창 직원 정보 수정
+    @Override
+    public Map<String, Object> listForEdit(int cp, SearchRequest searchRequest) {
+        // 프로젝트 팝업창 직원 정보 수정 시 숫자 확인
+        int listCount = empRepository.getEditListCount(searchRequest);
+
+        Pagination pagination = new Pagination(cp, listCount);
+        int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+        RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+        // 프로젝트 팝업창 직원 정보 수정 목록 조회
+        List<ProjectResponseDto> selectedList = empRepository.getEditList(rowBounds, searchRequest);
+
+        Map<String, Object> getEmpEditList = new HashMap<String, Object>();
+        getEmpEditList.put("pagination", pagination);
+        getEmpEditList.put("getProjectDetail", selectedList);
+        return getEmpEditList;
     }
 }

@@ -19,3 +19,17 @@
 .detail-list .detail-list-header a {
   align-self: end;
 }
+
+.addEmp {
+  cursor: pointer;
+}
+
+.alignAddBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+
+.editBtn {
+  margin: 0 15px;
+}
