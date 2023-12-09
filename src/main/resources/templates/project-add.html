@@ -14,6 +14,7 @@
 
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="http://benalman.com/code/projects/jquery-throttle-debounce/jquery.ba-throttle-debounce.js"></script>
 </head>
 
 <body>
@@ -38,21 +39,28 @@
         <form action="#" method="post">
           <table class="form-table">
             <tbody>
+              <span id="mustEnter">*은 필수 항목입니다.</span>
               <tr>
-                <th><label for="name">프로젝트명</label></th>
-                <td><input type="text" id="name" name="name" placeholder="프로젝트명" /></td>
-                <th><label for="client">발주처</label></th>
+                <th><label for="name">프로젝트명<span class="setMust">&nbsp;*</span></label></th>
                 <td>
-                  <select type="text" id="client" name="client" placeholder="발주처">
-                    <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM70'}" th:value="${val?.id}" th:utext="${val?.title}"></option>
-                  </select>
+                  <input type="text" id="name" name="name" placeholder="프로젝트명" />
+                  <span class="name-message" id="nameMessage"></span>
+                </td>
+                <th><label for="place">장소<span class="setMust">&nbsp;*</span></label></th>
+                <td colspan="3">
+                  <input type="text" id="place" name="place" placeholder="장소" />
+                  <span class="place-message" id="placeMessage"></span>
                 </td>
               </tr>
               <tr>
                 <th><label for="dateAt1">시작일</label></th>
-                <td><input type="date" id="dateAt1" name="date" value="" max="9999-12-31" /></td>
+                <td>
+                  <input type="date" id="dateAt1" name="date" value="" max="9999-12-31" />
+                </td>
                 <th><label for="dateAt2">종료일</label></th>
-                <td><input type="date" id="dateAt2" name="date" value="" max="9999-12-31" /></td>
+                <td>
+                  <input type="date" id="dateAt2" name="date" value="" max="9999-12-31" />
+                </td>
               </tr>
               <tr>
                 <th><label for="tech">기술스택</label></th>
@@ -61,8 +69,12 @@
                     <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM50'}" th:value="${val?.id}" th:utext="${val?.title}"></option>
                   </select>
                 </td>
-                <th><label for="place">장소</label></th>
-                <td colspan="3"><input type="text" id="place" name="place" placeholder="장소" /></td>
+                <th><label for="client">발주처</label></th>
+                <td>
+                  <select type="text" id="client" name="client" placeholder="발주처">
+                    <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM70'}" th:value="${val?.id}" th:utext="${val?.title}"></option>
+                  </select>
+                </td>
               </tr>
               <tr>
                 <td colspan="4">

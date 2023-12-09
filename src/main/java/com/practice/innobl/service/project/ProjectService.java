@@ -40,4 +40,10 @@ public interface ProjectService {
 
     // 직원 상세페이지에서 프로젝트 삭제
     int deleteProject(EmpDetailDeleteRequestDto empDetailDeleteRequestDto);
+
+    // 프로젝트 세부 내역 속 직원 역할 및 투입일, 철수일 수정
+    int editEmp(ProjectRequestDto empData);
+
+    // 등록된 프로젝트 삭제
+    int deleteProjectFromList(Long pId);
 }

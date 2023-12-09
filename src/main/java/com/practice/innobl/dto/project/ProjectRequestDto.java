@@ -18,4 +18,6 @@ public class ProjectRequestDto {
     private Long skill;
     private Long client;
     private Long status;
+    private String role;
+    private Long projectId;
 }

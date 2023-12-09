@@ -11,6 +11,7 @@
   <link th:href="@{/css/page/login.css}" rel="stylesheet" />
 
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
           <label for="remember">아이디 저장</label>
         </div>
       </div>
-      <button class="btn primary login-btn" type="submit">로그인</button>
+      <button type="button" class="btn primary login-btn" th:onclick="|location.hfre='@{/member}'|">로그인</button>
     </form>
     <ul class="links">
       <li><a href="#">비밀번호 찾기</a></li>
@@ -35,6 +36,8 @@
       <li><a href="#">회원가입</a></li>
     </ul>
   </main>
+
+  <script type="text/javascript" th:src="@{/js/employee/index.js}"></script>
 </body>
 
 </html>

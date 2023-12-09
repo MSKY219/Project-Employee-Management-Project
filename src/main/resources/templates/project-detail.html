@@ -117,8 +117,10 @@
                 <td th:text="${user.grade}"></td>
                 <td th:text="${user.skill}"></td>
                 <td th:text="${user.role}"></td>
-                <td>-</td>
-                <td>-</td>
+                <td th:if="${user.startAt} != null " th:text="${user.startAt}"></td>
+                <td th:unless="${user.startAt} != null ">-</td>
+                <td th:if="${user.endAt} != null " th:text="${user.endAt}"></td>
+                <td th:unless="${user.endAt} != null ">-</td>
                 <td th:text="${user.empStatus}"></td>
               </tr>
             </tbody>

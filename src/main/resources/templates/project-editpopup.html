@@ -100,16 +100,24 @@
               <td colspan="12">검색 결과가 없습니다</td>
             </tr>
             <tr th:each="user, status : ${empList}">
-              <td><input type="checkbox" th:name="userCheck" th:value="${user.id}" class="boxes" /></td>
+              <td><input type="checkbox" th:name="userCheck" th:value="${user?.id}" class="boxes" /></td>
               <td th:text="${status.index + 1}"></td>
-              <td th:text="${user.empName}"></td>
-              <td th:text="${user.jobTitle}"></td>
-              <td th:text="${user.grade}"></td>
-              <td th:text="${user.skill}"></td>
-              <td th:text="${user.role}"></td>
-              <td th:text="${user.startAt}"></td>
-              <td th:text="${user.endAt}"></td>
-              <td th:text="${user.status}"></td>
+              <td th:text="${user?.empName}"></td>
+              <td th:text="${user?.jobTitle}"></td>
+              <td th:text="${user?.grade}"></td>
+              <td th:text="${user?.skill}"></td>
+              <td>
+                <select class="roles" name="roles" placeholder="역할">
+                  <option th:each="val : ${optionList}" th:if="${val?.commoncode_id == 'CM100'}" th:value="${val?.id}" th:utext="${val?.title}" th:selected="${val?.title} == ${user?.role}"></option>
+                </select>
+              </td>
+              <td>
+                <input type="date" name="startAt" class="pstartAt" th:value="${user?.startAt} ? ${user?.startAt} : ''" max="9999-12-31" />
+              </td>
+              <td>
+                <input type="date" name="endAt" class="pendAt" th:value="${user?.endAt} ? ${user?.endAt} : ''" max="9999-12-31" />
+              </td>
+              <td th:text="${user?.status}"></td>
             </tr>
           </tbody>
         </table>
@@ -117,20 +125,20 @@
         <!-- 페이징 -->
         <div class="alignAddBtn">
           <button class="closeBtn btn secondary">취소</button>
-          <button class="addAll btn primary">추가</button>
+          <button class="addAll btn primary">수정</button>
         </div>
         <div class="pagination">
           <ul class="page-list" th:each="page : ${pagination}">
             <li class="page-arrow first">
-              <a th:href="@{|/project/getList/${pId}?cp=${pagination?.prevPage}&${query}|}">
+              <a th:href="@{|/project/editList/${pId}?cp=${pagination?.prevPage}&${query}|}">
                 <i class="ph-bold ph-caret-double-left"></i>
               </a>
             </li>
             <li th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:classappend="${page == pagination.currentPage} ? active : ''">
-              <a th:href="@{|/project/getList/${pId}?cp=${page}&${query}|}" th:utext="${page}"></a>
+              <a th:href="@{|/project/editList/${pId}?cp=${page}&${query}|}" th:utext="${page}"></a>
             </li>
             <li class="page-arrow last">
-              <a th:href="@{|/project/getList/${pId}?cp=${pagination?.nextPage}&${query}|}">
+              <a th:href="@{|/project/editList/${pId}?cp=${pagination?.nextPage}&${query}|}">
                 <i class="ph-bold ph-caret-double-right"></i>
               </a>
             </li>

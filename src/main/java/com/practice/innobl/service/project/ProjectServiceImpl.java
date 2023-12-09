@@ -107,4 +107,28 @@ public class ProjectServiceImpl implements ProjectService{
     public int deleteProject(EmpDetailDeleteRequestDto empDetailDeleteRequestDto) {
         return projectRepository.deleteProject(empDetailDeleteRequestDto);
     }
+
+    // 프로젝트 세부 내역 속 직원 역할 및 투입일, 철수일 수정
+    @Override
+    public int editEmp(ProjectRequestDto empData) {
+        return projectRepository.editEmp(empData);
+    }
+
+    // 등록된 프로젝트 삭제
+    @Override
+    public int deleteProjectFromList(Long pId) {
+
+        int result;
+        // 해당 프로젝트에 참가한 직원이 있는지 확인
+        int check = projectRepository.checkEmpInside(pId);
+        System.out.println("==================check : " + check);
+        if(check > 0) {
+            result = 2; // 직원이 존재할 때
+        } else {
+            // 직원이 존재하지 않을 때 삭제
+            projectRepository.deleteProjectFromList(pId);
+            result = 1;
+        }
+        return result;
+    }
 }

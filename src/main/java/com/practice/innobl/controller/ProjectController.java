@@ -3,11 +3,15 @@ package com.practice.innobl.controller;
 import com.practice.innobl.dto.commoncode.CommondefinitionDto;
 import com.practice.innobl.dto.emp.SearchRequest;
 import com.practice.innobl.dto.project.AddEmpRequestDto;
+import com.practice.innobl.dto.project.ProjectEditRequestDto;
 import com.practice.innobl.dto.project.ProjectRequestDto;
 import com.practice.innobl.dto.project.ProjectResponseDto;
 import com.practice.innobl.service.emp.EmpService;
 import com.practice.innobl.service.project.ProjectService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -296,5 +300,40 @@ public class ProjectController {
         model.addAttribute("pId", pId);
 
         return "project-editpopup";
+    }
+
+    // 프로젝트 세부 내역 속 직원 역할 및 투입일, 철수일 수정
+    @PostMapping("/project/edit/emp")
+    public @ResponseBody String projectEmpEdit(
+            @RequestBody ProjectEditRequestDto empDataArr
+    ) {
+
+        empDataArr.getEmpDataArr().forEach(empData -> {
+            System.out.println("empData : " + empData);
+            int result = projectService.editEmp(empData);
+        });
+        return null;
+    }
+
+    // 등록된 프로젝트 삭제
+    @GetMapping("/project/deleteProject")
+    public ResponseEntity<Integer> deleteProject(@RequestParam(value = "id") Long pId) {
+
+        System.out.println("pId = " + pId);
+        int result = projectService.deleteProjectFromList(pId);
+        System.out.println("전달받은 result는 " + result);
+        try {
+            if(result == 1) {
+
+            } else if (result == 2){
+
+            }
+
+            // 삭제 성공 로직
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // 삭제 실패 로직
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        }
     }
 }

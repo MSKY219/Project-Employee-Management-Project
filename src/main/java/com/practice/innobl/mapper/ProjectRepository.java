@@ -50,4 +50,13 @@ public interface ProjectRepository {
 
     // 직원 상세페이지에서 프로젝트 삭제
     int deleteProject(EmpDetailDeleteRequestDto empDetailDeleteRequestDto);
+
+    // 프로젝트 세부 내역 속 직원 역할 및 투입일, 철수일 수정
+    int editEmp(ProjectRequestDto empData);
+
+    // 해당 프로젝트에 참가한 직원이 있는지 확인
+    int checkEmpInside(Long pId);
+
+    // 프로젝트안에 직원이 존재하지 않을 때 삭제
+    void deleteProjectFromList(Long pId);
 }

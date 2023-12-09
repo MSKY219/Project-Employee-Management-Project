@@ -13,6 +13,48 @@ $(document).ready(function () {
         "place": false,
     };
 
+    // 프로젝트명 유효성 검사
+    const nameMessage = $('#nameMessage');
+    name.on('input', $.debounce(1000, () => {
+
+        if (name.val().length == 0) {
+            nameMessage.text("프로젝트 명을 입력해 주세요.");
+            nameMessage.removeClass("confirm").addClass("error");
+            checkObj.name = false;
+            return;
+        };
+
+        // 프로젝트명 확인
+        if ($('#name').val()) {
+            nameMessage.text("프로젝트 명 입력됨.");
+            nameMessage.removeClass("error").addClass("confirm");
+            checkObj.name = true;
+        } else {
+            checkObj.name = false;
+        }
+    }));
+
+    // 장소 유효성 검사
+    const placeMessage = $('#placeMessage');
+    place.on('input', $.debounce(1000, () => {
+
+        if (place.val().length == 0) {
+            placeMessage.text("장소를 입력해 주세요.");
+            placeMessage.removeClass("confirm").addClass("error");
+            checkObj.place = false;
+            return;
+        };
+
+        // 프로젝트명 확인
+        if ($('#place').val()) {
+            placeMessage.text("장소가 입력됨.");
+            placeMessage.removeClass("error").addClass("confirm");
+            checkObj.place = true;
+        } else {
+            checkObj.place = false;
+        }
+    }));
+
     // 날짜 시작일
     const dateAt1 = $('#dateAt1');
     dateAt1.on('change', () => {
@@ -23,8 +65,6 @@ $(document).ready(function () {
             dateAt1.val("");
             return false;
         }
-
-        console.log(checking);
     });
 
     // 날짜 종료일
@@ -80,12 +120,33 @@ $(document).ready(function () {
     const savekBtn = $('.addProject');
     savekBtn.on('click', (e) => {
 
-        console.log("name : " + name.val());
-        console.log("client : " + client.val());
-        console.log("dateAt1 : " + dateAt1.val());
-        console.log("dateAt2 : " + dateAt2.val());
-        console.log("tech : " + tech.val());
-        console.log("place : " + place.val());
+        if (checkObj.name == false) {
+            alert('프로젝트명을 입력 하지 않았습니다.');
+            name.focus();
+            e.preventDefault();
+            return false;
+        };
+
+        if (checkObj.place == false) {
+            alert('장소를 입력 하지 않았습니다.');
+            place.focus();
+            e.preventDefault();
+            return false;
+        };
+
+        if (checkObj.startAt == false) {
+            alert('시작일을 선택 하지 않았습니다.');
+            startAt.focus();
+            e.preventDefault();
+            return false;
+        };
+
+        if (checkObj.endAt == false) {
+            alert('종료일을 선택 하지 않았습니다.');
+            endAt.focus();
+            e.preventDefault();
+            return false;
+        };
 
         // 프로젝트 등록 ajax
         $.ajax({
@@ -101,12 +162,10 @@ $(document).ready(function () {
             type: "post",
 
             success: function (res) {
-                console.log("성공");
                 alert("프로젝트 등록 성공");
                 location.replace("/project");
             },
             error: function () {
-                console.log("실패");
             }
         });
     });

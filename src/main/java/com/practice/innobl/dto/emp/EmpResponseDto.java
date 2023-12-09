@@ -28,4 +28,6 @@ public class EmpResponseDto { // 직원 조회
     private String education;
     private String regNo;
     private String role;
+    private String startAt;
+    private String endAt;
 }

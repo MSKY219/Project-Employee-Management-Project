@@ -136,13 +136,17 @@ $(document).ready(function () {
     const searchTech = $('#tech');
     const searchGrade = $('#grade');
     const searchDetail = $('#location-detail');
+    const regEx = /^.{2,}$/;
 
     searchCheck.on('click', (e) => {
         if (searchCheck.val() == "" && searchStatus.val() == "" && searchTech.val() == "" && searchGrade.val() == "" && dateAt1.val() == "" && dateAt2.val() == "" && searchDetail.val() == "") {
             alert("하나 이상의 검색 조건을 설정해 주세요.");
             e.preventDefault();
         }
+
+        if (searchDetail.val() !== "" && !regEx.test(searchDetail.val())) {
+            alert("최소 두 글자 이상 입력해주세요.");
+            e.preventDefault();
+        }
     });
-
-
 });

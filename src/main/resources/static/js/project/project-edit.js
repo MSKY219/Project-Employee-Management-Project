@@ -20,7 +20,6 @@ $(document).ready(function () {
     name.on('input', $.debounce(1000, () => {
 
         if (name.val().length == 0) {
-            console.log("이름값 0");
             nameMessage.text("프로젝트 명을 입력해 주세요.");
             nameMessage.removeClass("confirm").addClass("error");
             checkObj.name = false;
@@ -29,7 +28,6 @@ $(document).ready(function () {
 
         // 프로젝트명 확인
         if ($('#name').val()) {
-            console.log($('#name').val());
             nameMessage.text("프로젝트 명 입력됨.");
             nameMessage.removeClass("error").addClass("confirm");
             checkObj.name = true;
@@ -43,7 +41,6 @@ $(document).ready(function () {
     place.on('input', $.debounce(1000, () => {
 
         if (place.val().length == 0) {
-            console.log("이름값 0");
             placeMessage.text("장소를 입력해 주세요.");
             placeMessage.removeClass("confirm").addClass("error");
             checkObj.place = false;
@@ -52,7 +49,6 @@ $(document).ready(function () {
 
         // 프로젝트명 확인
         if ($('#place').val()) {
-            console.log($('#place').val());
             placeMessage.text("장소가 입력됨.");
             placeMessage.removeClass("error").addClass("confirm");
             checkObj.place = true;
@@ -85,8 +81,6 @@ $(document).ready(function () {
             startDataMessage.removeClass("error").addClass("confirm");
             checkObj.startAt = true;
         }
-
-        console.log(checking);
     });
 
     // 날짜 종료일
@@ -166,15 +160,6 @@ $(document).ready(function () {
     const savekBtn = $('.addProject');
     savekBtn.on('click', (e) => {
 
-        console.log("name : " + name.val());
-        console.log("name : " + checkObj.name);
-        console.log("client : " + client.val());
-        console.log("dateAt1 : " + dateAt1.val());
-        console.log("dateAt2 : " + dateAt2.val());
-        console.log("tech : " + tech.val());
-        console.log("place : " + place.val());
-        console.log("place : " + checkObj.place);
-
         if (checkObj.name == false) {
             alert('프로젝트명을 입력 하지 않았습니다.');
             name.focus();
@@ -219,12 +204,10 @@ $(document).ready(function () {
             type: "post",
 
             success: function (res) {
-                console.log("성공");
                 alert("프로젝트 수정 성공");
                 location.replace("/project");
             },
             error: function () {
-                console.log("실패");
             }
         });
     });

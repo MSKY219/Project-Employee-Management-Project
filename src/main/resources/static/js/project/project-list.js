@@ -29,6 +29,29 @@ $(document).ready(function () {
 
     });
 
+    const deleteProject = $('.deleteProject');
+
+    deleteProject.on('click', (e) => {
+        let pId = $(e.currentTarget).data('id');
+        console.log("pId : " + pId);
+        $.ajax({
+            url: "/project/deleteProject",
+            data: {
+                "id": pId
+            },
+            type: "get",
+            success: function (res) {
+                console.log("삭제 성공");
+                if (res == 1) alert("프로젝트 삭제 성공");
+                if (res == 2) alert("삭제 실패. 해당 프로젝트에 참가한 직원이 있습니다.");
+                window.location.reload();
+            },
+            error: function () {
+                console.log("실패");
+            }
+        });
+    });
+
     // 체크 박스 선택
     const selectAll = $('#selectAll');
     const boxes = $('.boxes');
@@ -136,10 +159,16 @@ $(document).ready(function () {
     const searchTech = $('#tech');
     const searchGrade = $('#grade');
     const searchDetail = $('#location-detail');
+    const regEx = /^.{2,}$/;
 
     searchCheck.on('click', (e) => {
         if (searchCheck.val() == "" && searchStatus.val() == "" && searchTech.val() == "" && searchGrade.val() == "" && dateAt1.val() == "" && dateAt2.val() == "" && searchDetail.val() == "") {
             alert("하나 이상의 검색 조건을 설정해 주세요.");
+            e.preventDefault();
+        }
+
+        if (searchDetail.val() !== "" && !regEx.test(searchDetail.val())) {
+            alert("최소 두 글자 이상 입력해주세요.");
             e.preventDefault();
         }
     });

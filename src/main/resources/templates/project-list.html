@@ -12,6 +12,7 @@
   <link th:href="@{/css/components/search-filter.css}" rel="stylesheet" />
   <link th:href="@{/css/components/data-table.css}" rel="stylesheet" />
   <link th:href="@{/css/components/pagination.css}" rel="stylesheet" />
+  <link th:href="@{/css/page/project-list.css}" rel="stylesheet" />
 
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -120,7 +121,7 @@
                 <a th:href="@{/project/edit/{id}(id=${project.id})}">수정</a>
               </td>
               <td>
-                <a>삭제</a>
+                <a class="deleteProject" th:data-id="${project.id}">삭제</a>
               </td>
             </tr>
           </tbody>

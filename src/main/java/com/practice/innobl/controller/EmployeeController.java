@@ -30,6 +30,11 @@ public class EmployeeController {
 
     private final EmpService empService;
     private final ProjectService projectService;
+    @GetMapping("/")
+    public String LoginPage() {
+
+        return "index";
+    }
 
     // 직원 목록 창 이동
     @GetMapping("/member")

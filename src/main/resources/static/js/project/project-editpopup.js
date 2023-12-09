@@ -113,36 +113,135 @@ $(document).ready(function () {
         }
     });
 
+    // 투입일
+    const pstartAt = $('.pstartAt');
+    pstartAt.on('change', (e) => {
+        let clickTarget = $(e.currentTarget);
+        let checking = clickTarget.val();
+        console.log("clickTarget" + checking);
+
+        if (!checking.trim()) { // trim()을 사용하여 값의 앞뒤 공백을 제거하고 빈 문자열 여부를 확인
+            alert('날짜를 확인해 주세요.');
+            pstartAt.val("");
+            return false;
+        }
+
+        console.log(checking);
+    });
+
+    // 철수일
+    const pendAt = $('.pendAt');
+    pendAt.on('change', function (e) {
+        let clickTarget = $(e.currentTarget);
+        let startValue = $('.pstartAt', $(this).closest('tr')).val(); // 시작일의 값
+        let endValue = clickTarget.val(); // 종료일의 값
+
+        let startArray = startValue.split('-');
+        let endArray = endValue.split('-');
+
+        // 월은 01월, 02월 같이 0부터 시작하므로 1을 뺀다.
+        let checkStartDate = new Date(startArray[0], startArray[1] - 1, startArray[2]);
+        let checkEndDate = new Date(endArray[0], endArray[1] - 1, endArray[2]);
+
+        if (checkStartDate.getTime() > checkEndDate.getTime()) {
+            alert('종료일은 시작일보다 빠를 수 없습니다.');
+            clickTarget.val("");
+            return false;
+        }
+
+        if (!startValue) {
+            alert('시작일을 먼저 선택해 주세요.');
+            clickTarget.val("");
+            return false;
+        }
+
+        let checking = endValue;
+
+        if (!checking.trim()) {
+            alert('날짜를 확인해 주세요.');
+            clickTarget.val("");
+            return false;
+        }
+    });
+
+    // 투입일 선택 시, 철수일 초기화
+    pstartAt.on('click', function () {
+        let row = $(this).closest('tr');
+        let pendAtInRow = $('.pendAt', row);
+
+        if (pendAtInRow.val() === "") {
+            pendAtInRow.val(""); // pendAt의 값을 초기화
+        }
+    });
+
     const searchCheck = $('.primary');
     const searchStatus = $('#status');
     const searchTech = $('#tech');
     const searchGrade = $('#grade');
     const searchDetail = $('#location-detail');
+    const regEx = /^.{2,}$/;
 
     searchCheck.on('click', (e) => {
         if (searchCheck.val() == "" && searchStatus.val() == "" && searchTech.val() == "" && searchGrade.val() == "" && dateAt1.val() == "" && dateAt2.val() == "" && searchDetail.val() == "") {
             alert("하나 이상의 검색 조건을 설정해 주세요.");
             e.preventDefault();
         }
+
+        if (searchDetail.val() !== "" && !regEx.test(searchDetail.val())) {
+            alert("최소 두 글자 이상 입력해주세요.");
+            e.preventDefault();
+        }
     });
 
     const addAll = $('.addAll');
-    addAll.on('click', () => {
+    addAll.on('click', function () {
+
+        console.log("pIdPop : " + pIdPop.val());
+        let dataArr = [];
+
+        // Iterate over selected checkboxes
+        $('.boxes:checked').each(function () {
+            let row = $(this).closest('tr');
+            let role = $('.roles', row).val();
+            let startAt = $('.pstartAt', row).val();
+            let endAt = $('.pendAt', row).val();
+
+            // Validate and push data to array
+            if (!role || !startAt || !endAt || !role.trim() || !startAt.trim() || !endAt.trim()) {
+                alert('선택한 행의 역할, 투입일, 철수일을 입력해 주세요.');
+                return false;
+            }
+
+            dataArr.push({
+                id: $(this).val(),
+                role: role,
+                startAt: startAt,
+                endAt: endAt,
+                projectId: pIdPop.val()
+            });
+        });
+
+        // Check if any data is selected
+        if (dataArr.length === 0) {
+            alert('최소 한 줄 이상 선택해 주세요.');
+            return false;
+        }
+
+        console.log("전달될 데이터는 : ", dataArr);
 
         $.ajax({
-            url: "/project/add/member",
-            data: {
-                "empIdArr": idArr,
-                "projectId": pIdPop.val()
-            },
+            url: "/project/edit/emp",
+            data: JSON.stringify({
+                empDataArr: dataArr
+            }),
             type: "post",
-            traditional: true,
+            contentType: 'application/json',
             success: function (res) {
-                console.log("성공");
+                console.log("Success");
                 refreshing();
             },
             error: function () {
-                console.log("실패");
+                console.log("Error");
             }
         });
 

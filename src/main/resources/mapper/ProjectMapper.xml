@@ -56,20 +56,21 @@
     </sql>
 
 
-<!--  프로젝트 등록  -->
-    <insert id="saveProject" parameterType="com.practice.innobl.dto.project.ProjectRequestDto" useGeneratedKeys="true" keyProperty="id">
-        insert into project(<include refid="project" />)
+    <!--  프로젝트 등록  -->
+    <insert id="saveProject" parameterType="com.practice.innobl.dto.project.ProjectRequestDto" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into project(<include refid="project"/>)
         values
-            (
-                default,
-                #{pTitle},
-                #{startAt},
-                #{endAt},
-                #{place},
-                #{skill},
-                #{client},
-                default
-            )
+        (
+        default,
+        #{pTitle},
+        #{startAt},
+        #{endAt},
+        #{place},
+        #{skill},
+        #{client},
+        default
+        )
     </insert>
 
     <!--  프로젝트 목록 창 이동  -->
@@ -85,7 +86,7 @@
         cd3.title as status
         from project p
         <if test="projectId != ''">
-        left join pdetail pd on p.id = pd.project_id and pd.employee_id = #{projectId}
+            left join pdetail pd on p.id = pd.project_id and pd.employee_id = #{projectId}
         </if>
         <!-- 발주처 -->
         left outer join commondefinition cd1 on (cd1.commoncode_id = 'CM70' AND p.client = cd1.id)
@@ -195,18 +196,19 @@
 
 
     <!--  프로젝트 직원 추가  -->
-    <insert id="addEmp" parameterType="com.practice.innobl.dto.project.AddEmpRequestDto" useGeneratedKeys="true" keyProperty="id">
-        insert into pdetail(<include refid="pdetail" />)
+    <insert id="addEmp" parameterType="com.practice.innobl.dto.project.AddEmpRequestDto" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into pdetail(<include refid="pdetail"/>)
         values
         (
-            default,
-            #{employeeId},
-            #{projectId},
-            default,
-            null,
-            null,
-            default,
-            default
+        default,
+        #{employeeId},
+        #{projectId},
+        default,
+        null,
+        null,
+        default,
+        default
         )
     </insert>
 
@@ -230,7 +232,9 @@
         cd6.title as grade,
         cd7.title as education,
         cd8.title as role,
-        regno
+        regno,
+        pd.startAt as startAt,
+        pd.endAt as endAt
         from employee e
         left outer join pdetail pd on e.id = pd.employee_id
         <!-- 성별 -->
@@ -321,8 +325,9 @@
     </delete>
 
     <!--  직원 상세내역에서 프로젝트 추가하기  -->
-    <insert id="addProjectToEmp" parameterType="com.practice.innobl.dto.emp.AddProjectRequestDto" useGeneratedKeys="true" keyProperty="id">
-        insert into pdetail(<include refid="pdetail" />)
+    <insert id="addProjectToEmp" parameterType="com.practice.innobl.dto.emp.AddProjectRequestDto"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into pdetail(<include refid="pdetail"/>)
         values
         (
         default,
@@ -342,5 +347,28 @@
         where
         employee_id = #{empId}
         and id = #{projectId}
+    </delete>
+
+    <update id="editEmp" parameterType="com.practice.innobl.dto.project.ProjectRequestDto">
+        update pdetail
+        set
+        startAt = #{startAt}
+        , endAt = #{endAt}
+        , role = #{role}
+        where
+        employee_id = #{id} and project_id = #{projectId}
+    </update>
+
+    <select id="checkEmpInside">
+        select count(pd.employee_id)
+        from pdetail pd
+        join project p on pd.project_id = p.id
+        where p.id = #{pId}
+    </select>
+
+    <delete id="deleteProjectFromList">
+        delete from project p
+        where
+        p.id = #{pId}
     </delete>
 </mapper>

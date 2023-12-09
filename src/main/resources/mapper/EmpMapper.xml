@@ -116,7 +116,8 @@
                 and e.email like concat ('%', #{othersDetail} '%')
             </if>
             <if test="projectId != ''">
-                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in (select distinct employee_id FROM pdetail WHERE project_id = #{projectId}))) and e.empstatus != '4')
+                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in
+                (select distinct employee_id FROM pdetail WHERE project_id = #{projectId}))) and e.empstatus != '4')
             </if>
         </where>
     </select>
@@ -149,7 +150,8 @@
                 and e.email like concat ('%', #{othersDetail} '%')
             </if>
             <if test="projectId != ''">
-                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in (select distinct employee_id FROM pdetail WHERE project_id = #{projectId})))and e.empstatus != '4')
+                and (pd.project_id is null or (pd.project_id not like #{projectId} AND pd.deleted = 'N' and (e.id not in
+                (select distinct employee_id FROM pdetail WHERE project_id = #{projectId})))and e.empstatus != '4')
             </if>
         </where>
     </select>
@@ -311,12 +313,39 @@
     <select id="getEditListCount" parameterType="string" resultType="_int">
         select count(pd.id)
         from pdetail pd
-        where pd.project_id = #{projectId}
+        join employee e on pd.employee_id = e.id
+        <where>
+            <if test="status != ''">
+                and e.empstatus = #{status}
+            </if>
+            <if test="skill != ''">
+                and e.skill = #{skill}
+            </if>
+            <if test="grade != ''">
+                and e.grade = #{grade}
+            </if>
+            <if test="dateStart != '' and dateEnd != ''">
+                and e.enterat between #{dateStart} and #{dateEnd}
+            </if>
+            <if test="others == 1">
+                and e.empname like concat ('%', #{othersDetail}, '%')
+            </if>
+            <if test="others == 2">
+                and e.tel like concat ('%', #{othersDetail}, '%')
+            </if>
+            <if test="others == 3">
+                and e.email like concat ('%', #{othersDetail} '%')
+            </if>
+            <if test="projectId != ''">
+                and project_id = #{projectId}
+            </if>
+        </where>
     </select>
 
     <!--  프로젝트 팝업창 직원 정보 수정 목록 조회  -->
     <select id="getEditList" resultType="com.practice.innobl.dto.project.ProjectResponseDto">
         select
+        e.id as id,
         e.empname as empName,
         cd4.title as jobTitle,
         cd5.title as grade,
@@ -335,7 +364,33 @@
         join commondefinition cd4 on (cd4.commoncode_id = 'CM20' AND e.jobtitle = cd4.id)
         join commondefinition cd5 on (cd5.commoncode_id = 'CM80' AND e.grade = cd5.id)
         join commondefinition cd6 on (cd6.commoncode_id = 'CM40' AND e.empstatus = cd6.id)
-        where project_id = #{projectId}
+        <where>
+            <if test="status != ''">
+                and e.empstatus = #{status}
+            </if>
+            <if test="skill != ''">
+                and e.skill = #{skill}
+            </if>
+            <if test="grade != ''">
+                and e.grade = #{grade}
+            </if>
+            <if test="dateStart != '' and dateEnd != ''">
+                and e.enterat between #{dateStart} and #{dateEnd}
+            </if>
+            <if test="others == 1">
+                and e.empname like concat ('%', #{othersDetail}, '%')
+            </if>
+            <if test="others == 2">
+                and e.tel like concat ('%', #{othersDetail}, '%')
+            </if>
+            <if test="others == 3">
+                and e.email like concat ('%', #{othersDetail} '%')
+            </if>
+            <if test="projectId != ''">
+                and project_id = #{projectId}
+            </if>
+        </where>
+        order by e.id asc
     </select>
 
 
