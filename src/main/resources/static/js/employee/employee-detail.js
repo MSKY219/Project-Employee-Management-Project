@@ -61,6 +61,12 @@ $(document).ready(function () {
         console.log("pdetail.id : " + JSON.stringify(idArr));
         console.log("user.id : " + eId.val());
 
+        if (idArr.length == 0) {
+            alert("한 개 이상의 프로젝트를 선택해 주세요.")
+            e.preventDefault();
+            return false;
+        }
+
         $.ajax({
             url: "/member/delete/project",
             data: {

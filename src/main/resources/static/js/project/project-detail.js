@@ -65,6 +65,13 @@ $(document).ready(function () {
         console.log("삭제 버튼 누름");
         console.log("idArr : " + JSON.stringify(idArr));
         console.log("pIdPop : " + pIdPop.val());
+
+        if (idArr.length == 0) {
+            alert("한 명 이상의 직원을 선택해 주세요.")
+            e.preventDefault();
+            return false;
+        }
+
         $.ajax({
             url: "/project/delete/member",
             data: {
